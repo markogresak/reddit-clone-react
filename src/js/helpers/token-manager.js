@@ -5,8 +5,8 @@ import _ from 'lodash';
 
 const sessionStorage = createStore([sessionStorageEngine], []);
 
-const USER_TOKEN_KEY_NAME = 'AT_USER_TOKEN';
-const expectedKeys = _.sortBy(['accessToken', 'uid', 'client']);
+const USER_TOKEN_KEY_NAME = 'USER_TOKEN';
+const expectedKeys = _.sortBy(['accessToken']);
 
 /**
  * Check if given data is in valid format.
@@ -39,7 +39,7 @@ export function setStorageEngine(useSessionStorage) {
 
 /**
  * Retrieve user login data
- * @return {Object} Get user login data as object {accessToken, uid, client} or undefined if retrieved token is not valid.
+ * @return {Object} Get user login data as object {accessToken} or undefined if retrieved token is not valid.
  */
 export function getUserToken() {
   return getUserTokenWithStore(store);
@@ -48,8 +48,6 @@ export function getUserToken() {
 /**
  * Store user login data in localStorage.
  * @param {string} accessToken 'access-token' from response header.
- * @param {string} uid         'uid' from response header.
- * @param {string} client      'client' from response header.
  */
 export function setUserToken(data) {
   if (!isTokenDataValid(data)) {

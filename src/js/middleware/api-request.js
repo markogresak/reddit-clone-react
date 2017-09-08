@@ -64,10 +64,9 @@ function performRequest({endpoint, method, data = {}, isExternalUrl}) {
 
   // Add auth token if available.
   const userToken = getUserToken();
-  if (userToken && !isExternalUrl) {
-    headers.append('access-token', userToken.accessToken);
-    headers.append('uid', userToken.uid);
-    headers.append('client', userToken.client);
+  const includeCredentials = Boolean(userToken) && !isExternalUrl;
+  if (includeCredentials) {
+    headers.append('Authorization', `Bearer ${userToken.accessToken}`);
   }
 
   // if data is provided: when using GET method, serialize it to query string, otherwise pass it as request body.
@@ -86,7 +85,7 @@ function performRequest({endpoint, method, data = {}, isExternalUrl}) {
 
   // Prepare query request options.
   const requestOptions = {
-    ...(!isExternalUrl && {credentials: 'include'}),
+    ...(includeCredentials && {credentials: 'include'}),
     method,
     headers,
     ...payload,

@@ -1,25 +1,100 @@
 import React, {PropTypes} from 'react';
 import {Link} from 'react-router-dom';
+import styled from 'styled-components';
+import moment from 'moment';
 
-import PostRating from './PostRating';
+import {
+  mutedTextColor,
+  textSmSize,
+  textXsSize,
+  postHeight,
+  postSpacing,
+  postRatingWidth,
+} from '../../style-vars';
+import extractDomain from '../../helpers/extract-domain';
+import PostRating from '../PostRating';
 
-const PostItem = ({id, title, url, rating, comment_count: commentCount}) => {
+const PostItemWrapper = styled.div`
+  display: flex;
+  margin-top: ${postSpacing}px;
+  min-height: ${postHeight}px;
+`;
+
+const PostContentWrapper = styled.div`
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  flex-basis: calc(100% - ${postRatingWidth}px);
+`;
+
+const PostContent = styled.div``;
+const ExternalUrlDomain = styled.small`
+  margin-left: 6px;
+  color: ${mutedTextColor};
+  font-size: ${textXsSize}px;
+
+  &::before {
+    content: '(';
+  }
+
+  &::after {
+    content: ')';
+  }
+`;
+
+const PostDetails = styled.div`
+  font-size: ${textSmSize}px;
+  color: ${mutedTextColor};
+  padding-top: 6px;
+`;
+const PostSubmitted = styled.span``;
+const PostCommentCount = styled.div`
+  a {
+    font-size: ${textSmSize}px;
+    font-weight: bold;
+    color: ${mutedTextColor};
+  }
+`;
+
+const PostItem = ({
+  id,
+  title,
+  url,
+  rating,
+  comment_count: commentCount,
+  submitted_at: submittedAt,
+  user: {
+    username,
+    id: userId,
+  },
+}) => {
   return (
-    <div className="posts__item">
-      <div className="post__rating">
-        <PostRating postId={id} rating={rating} />
-      </div>
-      <div className="post__title">
-        {
-          url
-            ? <a href={url}>{title}</a>
-            : <Link to={`/posts/${id}`}>{title}</Link>
-        }
-      </div>
-      <div className="post__details">
-        <span className="post__details__comment-count">{commentCount}</span>
-      </div>
-    </div>
+    <PostItemWrapper>
+      <PostRating postId={id} rating={rating} />
+      <PostContentWrapper>
+        <PostContent>
+          {
+            url
+              ? (
+                <span>
+                  <a href={url} className="title">{title}</a>
+                  <ExternalUrlDomain>{extractDomain(url)}</ExternalUrlDomain>
+                </span>
+              )
+              : <Link to={`/posts/${id}`} className="title">{title}</Link>
+          }
+        </PostContent>
+        <PostDetails>
+          <PostSubmitted>
+            Submitted {moment(submittedAt).fromNow()} by{' '}
+            <Link to={`/users/${userId}`}>{username}</Link>
+          </PostSubmitted>
+        </PostDetails>
+        <PostCommentCount>
+          <Link to={`/posts/${id}`}>{commentCount} comments</Link>
+        </PostCommentCount>
+      </PostContentWrapper>
+    </PostItemWrapper>
   );
 };
 
@@ -29,6 +104,11 @@ PostItem.propTypes = {
   url: PropTypes.string,
   rating: PropTypes.number.isRequired,
   comment_count: PropTypes.number.isRequired,
+  submitted_at: PropTypes.string.isRequired,
+  user: PropTypes.shape({
+    username: PropTypes.string.isRequired,
+    id: PropTypes.number.isRequired,
+  }).isRequired,
 };
 
 PostItem.defaultProps = {

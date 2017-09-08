@@ -4462,6 +4462,10 @@ styled-components@^2.1.1:
     stylis "^3.2.1"
     supports-color "^3.2.3"
 
+styled-normalize@^2.2.1:
+  version "2.2.1"
+  resolved "https://registry.yarnpkg.com/styled-normalize/-/styled-normalize-2.2.1.tgz#c93a007c0339a69e3254eeef8cb6a5a96e5ca4eb"
+
 stylis@^3.2.1:
   version "3.2.7"
   resolved "https://registry.yarnpkg.com/stylis/-/stylis-3.2.7.tgz#35e5a28e8d0f435f81aa10ff9971c4febabd9ff5"

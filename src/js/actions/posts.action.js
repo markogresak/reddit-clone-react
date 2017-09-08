@@ -1,5 +1,5 @@
-import {posts} from '../endpoints';
-import apiRequest from '../helpers/api-request';
+import {posts, ratePost} from '../endpoints';
+import apiRequest, {methods} from '../helpers/api-request';
 
 export const GET_ALL_POSTS = 'GET_ALL_POSTS';
 export const RATE_POST = 'RATE_POST';
@@ -11,18 +11,17 @@ export const POST_RATE_DOWN = -1;
 export function fetchAllPosts() {
   return apiRequest({
     endpoint: posts(),
+    method: methods.GET,
     nextAction: GET_ALL_POSTS,
   });
 }
 
 export function addPostRating({postId, rating}) {
   return apiRequest({
-    endpoint: posts(postId),
-    requestParams: {
-      method: 'PUT',
-      data: {
-        rating,
-      },
+    endpoint: ratePost(postId),
+    method: methods.PUT,
+    data: {
+      rating,
     },
     nextAction: RATE_POST,
   });

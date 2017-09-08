@@ -3,13 +3,13 @@ import {Route, Switch} from 'react-router-dom';
 import {ConnectedRouter} from 'react-router-redux';
 
 import App from './components/App';
-import Dashboard from './components/Dashboard';
+import Posts from './components/Posts';
 import NotFound from './components/NotFound';
 
 const publicPath = '/';
 
 export const routeCodes = {
-  DASHBOARD: publicPath,
+  HOME: publicPath,
 };
 
 const Routes = ({history}) => {
@@ -18,7 +18,7 @@ const Routes = ({history}) => {
       <div>
         <App>
           <Switch>
-            <Route exact path={routeCodes.DASHBOARD} component={Dashboard} />
+            <Route exact path={routeCodes.HOME} component={Posts} />
             <Route component={NotFound} />
           </Switch>
         </App>

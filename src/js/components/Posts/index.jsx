@@ -1,8 +1,16 @@
 import React, {Component, PropTypes} from 'react';
 import {connect} from 'react-redux';
+import styled from 'styled-components';
 
+import {postsListSpacing} from '../../style-vars';
 import PostItem from './PostItem';
 import {fetchAllPosts} from '../../actions/posts.action';
+
+const PostsWrapper = styled.div`
+  max-width: 960px;
+  margin: 0 auto;
+  padding: ${postsListSpacing}px;
+`;
 
 class Posts extends Component {
   componentWillMount() {
@@ -10,7 +18,7 @@ class Posts extends Component {
   }
 
   renderInner() {
-    if (this.props.isLoading) {
+    if (this.props.arePostsLoading) {
       return (<div>Loading...</div>);
     }
     if (this.props.posts && this.props.posts.length > 0) {
@@ -21,17 +29,17 @@ class Posts extends Component {
 
   render() {
     return (
-      <div>
+      <PostsWrapper>
         {this.renderInner()}
-      </div>
+      </PostsWrapper>
     );
   }
 }
 
 Posts.propTypes = {
   fetchAllPosts: PropTypes.func.isRequired,
-  isLoading: PropTypes.bool.isRequired,
-  posts: PropTypes.arrayOf(PostItem.propTypes),
+  arePostsLoading: PropTypes.bool.isRequired,
+  posts: PropTypes.array.isRequired,
 };
 
 Posts.defaultProps = {
@@ -40,8 +48,8 @@ Posts.defaultProps = {
 
 function mapStateToProps(state) {
   return {
-    posts: state.getIn(['posts', 'posts']),
-    isLoading: state.getIn(['posts', 'isLoading']),
+    posts: state.posts.allPosts,
+    arePostsLoading: state.posts.arePostsLoading,
   };
 }
 
