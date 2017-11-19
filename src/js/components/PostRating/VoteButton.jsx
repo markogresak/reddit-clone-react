@@ -1,4 +1,5 @@
-import React, {PropTypes} from 'react';
+import React from 'react';
+import PropTypes from 'prop-types';
 import {connect} from 'react-redux';
 import styled, {css} from 'styled-components';
 
@@ -45,7 +46,7 @@ const VoteButton = ({postId, userRating, down, addPostRating}) => (
         addPostRating({postId, rating: POST_RATE_UP});
       }
     }
-  }
+    }
   />
 );
 
