@@ -4,7 +4,7 @@ import {connect} from 'react-redux';
 import styled from 'styled-components';
 
 import {postsListSpacing} from '../../style-vars';
-import PostItem from './PostItem';
+import PostItem from '../PostItem';
 import {fetchAllPosts} from '../../actions/posts.action';
 
 const PostsWrapper = styled.div`

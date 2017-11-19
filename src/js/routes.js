@@ -5,12 +5,15 @@ import {ConnectedRouter} from 'react-router-redux';
 
 import App from './components/App';
 import Posts from './components/Posts';
+import Post from './components/Post';
 import NotFound from './components/NotFound';
 
 const publicPath = '/';
 
 export const routeCodes = {
   HOME: publicPath,
+  POST: `${publicPath}posts/:id`,
+  USER: `${publicPath}users/:id`,
 };
 
 const Routes = ({history}) => {
@@ -20,6 +23,7 @@ const Routes = ({history}) => {
         <App>
           <Switch>
             <Route exact path={routeCodes.HOME} component={Posts} />
+            <Route path={routeCodes.POST} component={Post} />
             <Route component={NotFound} />
           </Switch>
         </App>

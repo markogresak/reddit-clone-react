@@ -1,8 +1,11 @@
+export const defaultTextColor = '#111';
 export const voteDefaultColor = '#C6C6C6';
 export const voteUpColor = '#FF8B60';
 export const voteDownColor = '#9494FF';
 export const mutedTextColor = '#888';
 export const linkColor = '#0074D9';
+export const textBlockBackground = '#f7f7f7';
+export const textBlockBorder = '#DDD';
 
 export function getColorBasedOnRating(userRating) {
   if (userRating === 0) {

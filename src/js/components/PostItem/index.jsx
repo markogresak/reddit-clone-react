@@ -14,6 +14,8 @@ import {
 } from '../../style-vars';
 import extractDomain from '../../helpers/extract-domain';
 import PostRating from '../PostRating';
+import {routeCodes} from '../../routes';
+import urlFromTemplate from '../../helpers/url-from-template';
 
 const PostItemWrapper = styled.div`
   display: flex;
@@ -82,17 +84,17 @@ const PostItem = ({
                   <ExternalUrlDomain>{extractDomain(url)}</ExternalUrlDomain>
                 </span>
               )
-              : <Link to={`/posts/${id}`} className="title">{title}</Link>
+              : <Link to={urlFromTemplate(routeCodes.POST, {id})} className="title">{title}</Link>
           }
         </PostContent>
         <PostDetails>
           <PostSubmitted>
             Submitted {moment(submittedAt).fromNow()} by{' '}
-            <Link to={`/users/${userId}`}>{username}</Link>
+            <Link to={urlFromTemplate(routeCodes.USER, {id: userId})}>{username}</Link>
           </PostSubmitted>
         </PostDetails>
         <PostCommentCount>
-          <Link to={`/posts/${id}`}>{commentCount} comments</Link>
+          <Link to={urlFromTemplate(routeCodes.POST, {id})}>{commentCount} comments</Link>
         </PostCommentCount>
       </PostContentWrapper>
     </PostItemWrapper>
@@ -114,6 +116,7 @@ PostItem.propTypes = {
 
 PostItem.defaultProps = {
   url: null,
+  withoutDetails: false,
 };
 
 export default PostItem;

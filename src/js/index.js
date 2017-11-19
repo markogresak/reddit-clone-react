@@ -13,7 +13,10 @@ import styledNormalize from 'styled-normalize';
 import getMiddleware from './middleware';
 import rootReducer from './reducers';
 import RootContainer from './components/RootContainer';
-import {linkColor} from './style-vars';
+import {
+  linkColor,
+  defaultTextColor,
+} from './style-vars';
 
 const history = createHistory();
 const store = createStore(rootReducer, getMiddleware({history}));
@@ -24,6 +27,7 @@ function globalStyles() {
 
     body {
       font-family: sans-serif;
+      color: ${defaultTextColor};
     }
 
     a {
