@@ -4,7 +4,7 @@
 
 ## Setup
 
-Tested with node 6.x and 7.x
+Tested with node `v8.x.x`.
 
 ```
 $ yarn

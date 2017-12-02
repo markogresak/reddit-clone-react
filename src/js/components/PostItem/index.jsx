@@ -80,11 +80,11 @@ const PostItem = ({
             url
               ? (
                 <span>
-                  <a href={url} className="title">{title}</a>
+                  <a href={url}>{title}</a>
                   <ExternalUrlDomain>{extractDomain(url)}</ExternalUrlDomain>
                 </span>
               )
-              : <Link to={urlFromTemplate(routeCodes.POST, {id})} className="title">{title}</Link>
+              : <Link to={urlFromTemplate(routeCodes.POST, {id})}>{title}</Link>
           }
         </PostContent>
         <PostDetails>

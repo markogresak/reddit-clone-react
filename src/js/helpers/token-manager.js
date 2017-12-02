@@ -6,7 +6,12 @@ import _ from 'lodash';
 const sessionStorage = createStore([sessionStorageEngine], []);
 
 const USER_TOKEN_KEY_NAME = 'USER_TOKEN';
-const expectedKeys = _.sortBy(['accessToken']);
+const valueTypes = {
+  userId: _.isNumber,
+  username: _.isString,
+  accessToken: _.isString,
+};
+const expectedKeys = _.sortBy(_.keys(valueTypes));
 
 /**
  * Check if given data is in valid format.
@@ -15,7 +20,7 @@ const expectedKeys = _.sortBy(['accessToken']);
  */
 function isTokenDataValid(data) {
   // Check that `data` includes all and only the expected keys and that the values are strings.
-  return _.isEqual(expectedKeys, _.sortBy(_.keys(data))) && _.every(_.values(data), _.isString);
+  return _.isEqual(expectedKeys, _.sortBy(_.keys(data))) && _.every(valueTypes, (checkFn, key) => checkFn(data[key]));
 }
 
 /**
@@ -47,7 +52,7 @@ export function getUserToken() {
 
 /**
  * Store user login data in localStorage.
- * @param {string} accessToken 'access-token' from response header.
+ * @param {string} accessToken 'jwt' from response.
  */
 export function setUserToken(data) {
   if (!isTokenDataValid(data)) {

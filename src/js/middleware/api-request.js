@@ -5,22 +5,6 @@ import {API_REQUEST, API_REQUEST_PENDING, methods} from '../helpers/api-request'
 import {setStorageEngine, getUserToken, setUserToken} from '../helpers/token-manager';
 
 function processResponse(response) {
-  if (!_.isFunction(_.get(response, 'headers.get'))) {
-    throw new Error('Missing response.headers.get in processResponse function of api-request middleware.');
-  }
-
-  const accessToken = response.headers.get('access-token');
-  const uid = response.headers.get('uid');
-  const client = response.headers.get('client');
-
-  if (_.isString(accessToken) && _.isString(uid) && _.isString(client)) {
-    setUserToken({
-      accessToken,
-      uid,
-      client,
-    });
-  }
-
   /**
    * handle 204 responses (empty body response => invalid JSON)
    * @type {Promise}
@@ -31,6 +15,19 @@ function processResponse(response) {
     // Map response to always have shape {data, errors}
     .then(json => {
       const payload = _.has(json, 'data') ? json : {data: json};
+
+      // Try to parse user data from payload (if login) and store it.
+      const userId = _.get(payload, 'data.user.id');
+      const username = _.get(payload, 'data.user.username');
+      const accessToken = _.get(payload, 'data.jwt');
+
+      if (_.isNumber(userId) && _.isString(username) && _.isString(accessToken)) {
+        setUserToken({
+          userId,
+          username,
+          accessToken,
+        });
+      }
 
       if (_.has(payload, 'data.error')) {
         return {...payload, errors: _.castArray(payload.data.error)};
@@ -64,8 +61,8 @@ function performRequest({endpoint, method, data = {}, isExternalUrl}) {
 
   // Add auth token if available.
   const userToken = getUserToken();
-  const includeCredentials = Boolean(userToken) && !isExternalUrl;
-  if (includeCredentials) {
+  const includeCredentials = !isExternalUrl;
+  if (userToken) {
     headers.append('Authorization', `Bearer ${userToken.accessToken}`);
   }
 

@@ -6,6 +6,8 @@ export const mutedTextColor = '#888';
 export const linkColor = '#0074D9';
 export const textBlockBackground = '#f7f7f7';
 export const textBlockBorder = '#DDD';
+export const menuBackground = '#E0E0E0';
+export const dangerColor = '#e53935';
 
 export function getColorBasedOnRating(userRating) {
   if (userRating === 0) {
@@ -23,3 +25,9 @@ export const postSpacing = 15;
 
 export const postRatingWidth = 50;
 export const postRatingTextSpacing = 6;
+
+export const inputStyle = {
+  border: '1px solid #E0E0E0',
+  borderRadius: 4,
+  padding: 8,
+};

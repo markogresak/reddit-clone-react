@@ -5,10 +5,10 @@ import Menu from '../Menu';
 
 const App = ({children}) => {
   return (
-    <div className="App">
+    <div>
       <Menu />
 
-      <div className="Page">
+      <div>
         {children}
       </div>
     </div>
