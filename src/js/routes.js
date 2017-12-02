@@ -6,6 +6,7 @@ import {ConnectedRouter} from 'react-router-redux';
 import App from './components/App';
 import Posts from './components/Posts';
 import Post from './components/Post';
+import NewPost from './components/NewPost';
 import User from './components/User';
 import Login from './components/Login';
 import Logout from './components/Logout';
@@ -16,6 +17,7 @@ const publicPath = '/';
 export const routeCodes = {
   HOME: publicPath,
   POST: `${publicPath}posts/:id`,
+  NEW_POST: `${publicPath}posts/new/:type`,
   USER: `${publicPath}users/:id/:tab?`,
   LOGIN: `${publicPath}login`,
   LOGOUT: `${publicPath}logout`,
@@ -28,6 +30,7 @@ const Routes = ({history}) => {
         <App>
           <Switch>
             <Route exact path={routeCodes.HOME} component={Posts} />
+            <Route path={routeCodes.NEW_POST} component={NewPost} />
             <Route path={routeCodes.POST} component={Post} />
             <Route path={routeCodes.USER} component={User} />
             <Route path={routeCodes.LOGIN} component={Login} />

@@ -1,18 +1,32 @@
 import React, {Component} from 'react';
 import PropTypes from 'prop-types';
 import {connect} from 'react-redux';
+import {Link} from 'react-router-dom';
 import styled from 'styled-components';
 import _ from 'lodash';
 
+import {routeCodes} from '../../routes';
 import {postsListSpacing, contentWidth} from '../../style-vars';
 import PostItem from '../PostItem';
 import {fetchAllPosts} from '../../actions/posts.action';
 import hasScrolledToBottom from '../../helpers/has-scrolled-to-bottom';
+import urlFromTemplate from '../../helpers/url-from-template';
+import {postTypes} from '../NewPost';
 
 const PostsWrapper = styled.div`
   max-width: ${contentWidth}px;
   margin: 0 auto;
   padding: ${postsListSpacing}px;
+`;
+
+const NewPostWrapper = styled.div`
+  margin-bottom: 32px;
+  display: flex;
+  justify-content: flex-end;
+`;
+
+const NewPostButtonWrapper = styled.div`
+  margin-right: 10px;
 `;
 
 const pageSize = 20;
@@ -70,6 +84,18 @@ class Posts extends Component {
   render() {
     return (
       <PostsWrapper>
+        <NewPostWrapper>
+          <NewPostButtonWrapper>
+            <Link to={urlFromTemplate(routeCodes.NEW_POST, {type: postTypes.link})}>
+              <button>+ Add new link post</button>
+            </Link>
+          </NewPostButtonWrapper>
+          <NewPostButtonWrapper>
+            <Link to={urlFromTemplate(routeCodes.NEW_POST, {type: postTypes.text})}>
+              <button>+ Add new text post</button>
+            </Link>
+          </NewPostButtonWrapper>
+        </NewPostWrapper>
         {this.renderInner()}
       </PostsWrapper>
     );

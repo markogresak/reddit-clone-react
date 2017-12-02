@@ -7,6 +7,7 @@ import {
   GET_ALL_POSTS,
   GET_POST,
   RATE_POST,
+  ADD_POST,
   RATE_COMMENT,
   ADD_COMMENT,
   EDIT_COMMENT,
@@ -21,6 +22,8 @@ const initialState = Immutable({
   currentPost: null,
   arePostsLoading: false,
   isPostViewLoading: false,
+  addPostPending: false,
+  newPostId: null,
   addCommentPending: false,
 });
 
@@ -31,6 +34,9 @@ const posts = {
     }
     if (action.nextAction === GET_POST) {
       return state.set('isPostViewLoading', true);
+    }
+    if (action.nextAction === ADD_POST) {
+      return state.set('addPostPending', true);
     }
     if (action.nextAction === ADD_COMMENT) {
       return state.set('addCommentPending', true);
@@ -47,6 +53,12 @@ const posts = {
     return state.merge({
       currentPost: action.isError ? null : action.data,
       isPostViewLoading: false,
+    });
+  },
+  [ADD_POST]: (state, action) => {
+    return state.merge({
+      addPostPending: false,
+      newPostId: _.get(action, 'data.id'),
     });
   },
   [RATE_POST]: (state, action) => {

@@ -4,6 +4,7 @@ import apiRequest, {methods} from '../helpers/api-request';
 export const GET_ALL_POSTS = 'GET_ALL_POSTS';
 export const GET_POST = 'GET_POST';
 export const RATE_POST = 'RATE_POST';
+export const ADD_POST = 'ADD_POST';
 export const RATE_COMMENT = 'RATE_COMMENT';
 export const ADD_COMMENT = 'ADD_COMMENT';
 export const EDIT_COMMENT = 'EDIT_COMMENT';
@@ -39,6 +40,17 @@ export function fetchPost(postId) {
     endpoint: posts(postId),
     method: methods.GET,
     nextAction: GET_POST,
+  });
+}
+
+export function addPost(postData) {
+  return apiRequest({
+    endpoint: posts(),
+    method: methods.POST,
+    nextAction: ADD_POST,
+    data: {
+      post: postData,
+    },
   });
 }
 
