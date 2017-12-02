@@ -5,8 +5,10 @@ import moment from 'moment';
 import styled, {css} from 'styled-components';
 
 import RatingButtons from '../RatingButtons';
+import CommentForm from '../CommentForm';
 import {routeCodes} from '../../routes';
 import urlFromTemplate from '../../helpers/url-from-template';
+import {hasUserToken, getUserToken} from '../../helpers/token-manager';
 import {
   textSmSize,
   mutedTextColor,
@@ -56,18 +58,70 @@ const CommentContentWrapper = styled.div`
   `}
 `;
 
+const ActionLink = styled.span`
+  font-size: ${textSmSize}px;
+  font-weight: bold;
+  color: ${mutedTextColor};
+  padding-top: 8px;
+  margin-bottom: 6px;
+  margin-right: 6px;
+  cursor: pointer;
+`;
+
 class Comment extends React.Component {
   state = {
     collapsed: false,
+    showReplyForm: false,
+    editMode: false,
   }
 
   toggleCollapse = () => {
     this.setState({collapsed: !this.state.collapsed});
   }
 
+  openReplyForm = () => {
+    this.setState({showReplyForm: true});
+  }
+
+  closeReplyForm = () => {
+    this.setState({showReplyForm: false});
+  }
+
+  submitReply = (e) => {
+    const {editMode} = this.state;
+
+    const submitSuccess = this.props.submitComment(e, {
+      parentCommentId: this.props.parentCommentId,
+      ...(editMode && {commentId: this.props.currentComment.id}),
+    });
+
+    if (submitSuccess) {
+      if (editMode) {
+        this.closeEditForm();
+      } else {
+        this.closeReplyForm();
+      }
+    }
+  }
+
+  openEditForm = () => {
+    this.setState({editMode: true});
+  }
+
+  closeEditForm = () => {
+    this.setState({editMode: false});
+  }
+
+  onDeleteComment = () => {
+    // eslint-disable-next-line no-alert
+    if (confirm('Are you sure you wish to delete this comment?')) {
+      this.props.deleteComment(this.props.currentComment.id);
+    }
+  }
+
   render() {
-    const {currentComment, allComments, nested} = this.props;
-    const {collapsed} = this.state;
+    const {currentComment, allComments, submitComment, deleteComment, nested} = this.props;
+    const {collapsed, showReplyForm, editMode} = this.state;
 
     const {
       id,
@@ -79,6 +133,7 @@ class Comment extends React.Component {
     } = currentComment;
 
     const nestedComments = allComments.filter(c => c.parent_comment_id === id);
+    const currentUserId = parseInt((getUserToken() || {}).userId, 10);
 
     return (
       <CommentWrapper nested={nested}>
@@ -93,15 +148,43 @@ class Comment extends React.Component {
           </CommentDetails>
           <CommentContentWrapper collapsed={collapsed}>
             <div>
-              {text}
+              {editMode ? (
+                <CommentForm
+                  onSubmit={this.submitReply}
+                  onClose={this.closeEditForm}
+                  withCancelButton
+                  defaultValue={text}
+                />
+              ) : (
+                <span>{text}</span>
+              )}
             </div>
+            {hasUserToken() &&
+              <span>
+                <ActionLink onClick={this.openReplyForm}>Reply</ActionLink>
+                {currentUserId === user.id &&
+                  <span>
+                    <ActionLink onClick={this.openEditForm}>Edit</ActionLink>
+                    <ActionLink onClick={this.onDeleteComment}>Delete</ActionLink>
+                  </span>
+                }
+              </span>
+            }
+
+            {showReplyForm && (
+              <CommentForm onSubmit={this.submitReply} onClose={this.closeReplyForm} withCancelButton />
+            )}
+
             {nestedComments.length > 0 && (
               <NestedWrapper>
                 {nestedComments.map(comment => (
                   <Comment
                     key={comment.id}
+                    parentCommentId={comment.id}
                     currentComment={comment}
                     allComments={allComments}
+                    submitComment={submitComment}
+                    deleteComment={deleteComment}
                     nested
                   />
                 ))}
@@ -115,8 +198,21 @@ class Comment extends React.Component {
 }
 
 Comment.propTypes = {
-  currentComment: PropTypes.object.isRequired,
+  parentCommentId: PropTypes.number.isRequired,
+  currentComment: PropTypes.shape({
+    id: PropTypes.number.isRequired,
+    user: PropTypes.shape({
+      id: PropTypes.number.isRequired,
+      username: PropTypes.string.isRequired,
+    }).isRequired,
+    rating: PropTypes.number.isRequired,
+    text: PropTypes.string.isRequired,
+    submitted_at: PropTypes.string.isRequired,
+    user_comment_rating: PropTypes.number,
+  }).isRequired,
   allComments: PropTypes.array.isRequired,
+  submitComment: PropTypes.func.isRequired,
+  deleteComment: PropTypes.func.isRequired,
   nested: PropTypes.bool,
 };
 

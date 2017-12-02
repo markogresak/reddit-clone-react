@@ -31,3 +31,5 @@ export const inputStyle = {
   borderRadius: 4,
   padding: 8,
 };
+
+export const contentWidth = 960;

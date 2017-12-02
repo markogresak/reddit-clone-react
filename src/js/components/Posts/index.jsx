@@ -4,13 +4,13 @@ import {connect} from 'react-redux';
 import styled from 'styled-components';
 import _ from 'lodash';
 
-import {postsListSpacing} from '../../style-vars';
+import {postsListSpacing, contentWidth} from '../../style-vars';
 import PostItem from '../PostItem';
 import {fetchAllPosts} from '../../actions/posts.action';
 import hasScrolledToBottom from '../../helpers/has-scrolled-to-bottom';
 
 const PostsWrapper = styled.div`
-  max-width: 960px;
+  max-width: ${contentWidth}px;
   margin: 0 auto;
   padding: ${postsListSpacing}px;
 `;

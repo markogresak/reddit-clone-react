@@ -1,10 +1,13 @@
-import {posts, ratePost, rateComment} from '../endpoints';
+import {posts, comments, ratePost, rateComment} from '../endpoints';
 import apiRequest, {methods} from '../helpers/api-request';
 
 export const GET_ALL_POSTS = 'GET_ALL_POSTS';
 export const GET_POST = 'GET_POST';
 export const RATE_POST = 'RATE_POST';
 export const RATE_COMMENT = 'RATE_COMMENT';
+export const ADD_COMMENT = 'ADD_COMMENT';
+export const EDIT_COMMENT = 'EDIT_COMMENT';
+export const DELETE_COMMENT = 'DELETE_COMMENT';
 
 
 export const POST_RATE_UP = 1;
@@ -49,5 +52,31 @@ export function addCommentRating({id, rating}) {
       },
     },
     nextAction: RATE_COMMENT,
+  });
+}
+
+export function addOrEditComment({commentId, postId, text, parentCommentId}) {
+  return apiRequest({
+    endpoint: comments(commentId),
+    method: commentId ? methods.PATCH : methods.POST,
+    data: {
+      comment: {
+        post_id: postId,
+        text,
+        parent_comment_id: parentCommentId,
+      },
+    },
+    nextAction: commentId ? EDIT_COMMENT : ADD_COMMENT,
+  });
+}
+
+export function deleteComment(id) {
+  return apiRequest({
+    endpoint: comments(id),
+    method: methods.DELETE,
+    nextAction: DELETE_COMMENT,
+    metadata: {
+      commentId: id,
+    },
   });
 }
