@@ -1,8 +1,5 @@
 {
   "plugins": [
-    "transform-class-properties",
-    "syntax-decorators",
-    "transform-decorators-legacy",
     "react-hot-loader/babel"
   ],
   "presets": [
