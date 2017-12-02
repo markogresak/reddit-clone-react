@@ -50,14 +50,28 @@ const posts = {
     });
   },
   [RATE_POST]: (state, action) => {
-    if (action.isError || _.get(state, 'currentPost.id') !== _.get(action, 'data.post_id')) {
+    if (action.isError) {
       return state;
     }
 
-    return state.merge({
-      currentPost: state.currentPost.merge({
-        rating: action.data.post_rating,
-        user_post_rating: action.data.rating,
+    const {post_id: postId} = action.data;
+    const shouldUpdateCurrentPost = _.get(state, 'currentPost.id') === postId;
+    const postIndex = _.findIndex(state.allPosts, {id: postId});
+
+    const updatedPostData = {
+      rating: action.data.post_rating,
+      user_post_rating: action.data.rating,
+    };
+
+    let nextState = state;
+    if (postIndex >= 0) {
+      const postPath = ['allPosts', postIndex];
+      nextState = _.reduce(updatedPostData, (nextState, val, key) => nextState.setIn([...postPath, key], val), nextState);
+    }
+
+    return nextState.merge({
+      ...(shouldUpdateCurrentPost && {
+        currentPost: state.currentPost.merge(updatedPostData),
       }),
     });
   },
