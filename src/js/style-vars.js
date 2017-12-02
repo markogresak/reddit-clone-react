@@ -8,6 +8,7 @@ export const textBlockBackground = '#f7f7f7';
 export const textBlockBorder = '#DDD';
 export const menuBackground = '#E0E0E0';
 export const dangerColor = '#e53935';
+export const defaultBorderColor = '#E0E0E0';
 
 export function getColorBasedOnRating(userRating) {
   if (userRating === 0) {

@@ -11,6 +11,7 @@ import {
 } from '../../style-vars';
 import {fetchPost} from '../../actions/posts.action';
 import PostItem from '../PostItem';
+import Comment from '../Comment';
 
 const PostsWrapper = styled.div`
   max-width: 960px;
@@ -43,12 +44,17 @@ class Post extends Component {
       return <div>Loading...</div>;
     }
 
+    const topLevelComments = currentPost.comments.filter(c => c.parent_comment_id === null);
+
     return (
       <PostsWrapper>
         <PostItem {...currentPost} />
         {currentPost.text && (
           <PostTextWrapper>{currentPost.text}</PostTextWrapper>
         )}
+        {topLevelComments.map(comment => (
+          <Comment key={comment.id} currentComment={comment} allComments={currentPost.comments} />
+        ))}
       </PostsWrapper>
     );
   }
