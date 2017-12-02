@@ -22,7 +22,9 @@ export function addPostRating({postId, rating}) {
     endpoint: ratePost(postId),
     method: methods.PUT,
     data: {
-      rating,
+      post_rating: {
+        rating,
+      },
     },
     nextAction: RATE_POST,
   });
