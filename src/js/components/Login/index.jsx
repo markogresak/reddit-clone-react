@@ -62,8 +62,8 @@ class Login extends React.Component {
           <LoginFormContainer>
             <ApiErrors errors={errors} />
 
-            <input style={loginInputStyle} type="text" name="username" />
-            <input style={loginInputStyle} type="password" name="password" />
+            <input style={loginInputStyle} type="text" name="username" required />
+            <input style={loginInputStyle} type="password" name="password" required />
 
             <span style={{alignSelf: 'left', marginBottom: inputMarginBottom}}>
               <input type="checkbox" name="rememberMe" id="rememberMe" defaultChecked />

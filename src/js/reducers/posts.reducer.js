@@ -17,7 +17,6 @@ import {routeCodes} from '../routes';
 import urlFromTemplate from '../helpers/url-from-template';
 
 const initialState = Immutable({
-  counter: 0,
   allPosts: [],
   currentPost: null,
   arePostsLoading: false,
@@ -147,7 +146,10 @@ const posts = {
     if (currentPostId && _.get(action, 'payload.pathname') === urlFromTemplate(routeCodes.POST, {id: currentPostId})) {
       return state;
     }
-    return state.set('currentPost', null);
+    return state.merge({
+      currentPost: null,
+      newPostId: null,
+    });
   },
 };
 

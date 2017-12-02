@@ -7,6 +7,7 @@ import {Redirect} from 'react-router-dom';
 import {addPost} from '../../actions/posts.action';
 import {routeCodes} from '../../routes';
 import urlFromTemplate from '../../helpers/url-from-template';
+import {hasUserToken} from '../../helpers/token-manager';
 
 const NewPostWrapper = styled.div`
   max-width: 500px;
@@ -54,6 +55,12 @@ class NewPost extends React.Component {
   }
 
   render() {
+    if (!hasUserToken()) {
+      return (
+        <Redirect to={routeCodes.HOME} />
+      );
+    }
+
     const {addPostPending, newPostId} = this.props;
     const postType = this.postType();
 

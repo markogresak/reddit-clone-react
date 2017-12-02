@@ -12,6 +12,7 @@ import {fetchAllPosts} from '../../actions/posts.action';
 import hasScrolledToBottom from '../../helpers/has-scrolled-to-bottom';
 import urlFromTemplate from '../../helpers/url-from-template';
 import {postTypes} from '../NewPost';
+import {hasUserToken} from '../../helpers/token-manager';
 
 const PostsWrapper = styled.div`
   max-width: ${contentWidth}px;
@@ -84,18 +85,21 @@ class Posts extends Component {
   render() {
     return (
       <PostsWrapper>
-        <NewPostWrapper>
-          <NewPostButtonWrapper>
-            <Link to={urlFromTemplate(routeCodes.NEW_POST, {type: postTypes.link})}>
-              <button>+ Add new link post</button>
-            </Link>
-          </NewPostButtonWrapper>
-          <NewPostButtonWrapper>
-            <Link to={urlFromTemplate(routeCodes.NEW_POST, {type: postTypes.text})}>
-              <button>+ Add new text post</button>
-            </Link>
-          </NewPostButtonWrapper>
-        </NewPostWrapper>
+        {hasUserToken() &&
+          <NewPostWrapper>
+            <NewPostButtonWrapper>
+              <Link to={urlFromTemplate(routeCodes.NEW_POST, {type: postTypes.link})}>
+                <button>+ Add new link post</button>
+              </Link>
+            </NewPostButtonWrapper>
+            <NewPostButtonWrapper>
+              <Link to={urlFromTemplate(routeCodes.NEW_POST, {type: postTypes.text})}>
+                <button>+ Add new text post</button>
+              </Link>
+            </NewPostButtonWrapper>
+          </NewPostWrapper>
+        }
+
         {this.renderInner()}
       </PostsWrapper>
     );
