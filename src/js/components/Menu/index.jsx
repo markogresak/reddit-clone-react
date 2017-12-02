@@ -9,14 +9,14 @@ import urlFromTemplate from '../../helpers/url-from-template';
 import {getUserToken} from '../../helpers/token-manager';
 
 import {
-  menuBackground,
+  defaultBorderColor,
 } from '../../style-vars';
 
 const MenuWrapper = styled.div`
   display: flex;
   justify-content: flex-end;
-  padding: 6px 16px;
-  background: ${menuBackground};
+  padding: 10px 16px;
+  border-bottom: 1px solid ${defaultBorderColor};
 `;
 
 function Menu({pathname}) {

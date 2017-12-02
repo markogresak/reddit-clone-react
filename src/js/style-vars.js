@@ -6,7 +6,6 @@ export const mutedTextColor = '#888';
 export const linkColor = '#0074D9';
 export const textBlockBackground = '#f7f7f7';
 export const textBlockBorder = '#DDD';
-export const menuBackground = '#E0E0E0';
 export const dangerColor = '#e53935';
 export const defaultBorderColor = '#E0E0E0';
 
