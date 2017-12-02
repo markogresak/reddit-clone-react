@@ -23,8 +23,8 @@ export const postsListSpacing = 20;
 export const postHeight = 50;
 export const postSpacing = 15;
 
-export const postRatingWidth = 50;
-export const postRatingTextSpacing = 6;
+export const ratingButtonsWidth = 50;
+export const ratingButtonsTextSpacing = 6;
 
 export const inputStyle = {
   border: '1px solid #E0E0E0',

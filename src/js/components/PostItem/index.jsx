@@ -10,10 +10,10 @@ import {
   textXsSize,
   postHeight,
   postSpacing,
-  postRatingWidth,
+  ratingButtonsWidth,
 } from '../../style-vars';
 import extractDomain from '../../helpers/extract-domain';
-import PostRating from '../PostRating';
+import RatingButtons from '../RatingButtons';
 import {routeCodes} from '../../routes';
 import urlFromTemplate from '../../helpers/url-from-template';
 
@@ -27,7 +27,7 @@ const PostContentWrapper = styled.div`
   display: flex;
   flex-direction: column;
   justify-content: space-between;
-  flex-basis: calc(100% - ${postRatingWidth}px);
+  flex-basis: calc(100% - ${ratingButtonsWidth}px);
 `;
 
 const PostContent = styled.div``;
@@ -74,7 +74,7 @@ const PostItem = ({
 }) => {
   return (
     <PostItemWrapper>
-      <PostRating postId={id} rating={rating} userRating={userRating || 0} />
+      <RatingButtons id={id} rating={rating} userRating={userRating || 0} />
       <PostContentWrapper>
         <PostContent>
           {

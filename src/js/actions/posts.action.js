@@ -1,9 +1,10 @@
-import {posts, ratePost} from '../endpoints';
+import {posts, ratePost, rateComment} from '../endpoints';
 import apiRequest, {methods} from '../helpers/api-request';
 
 export const GET_ALL_POSTS = 'GET_ALL_POSTS';
 export const GET_POST = 'GET_POST';
 export const RATE_POST = 'RATE_POST';
+export const RATE_COMMENT = 'RATE_COMMENT';
 
 
 export const POST_RATE_UP = 1;
@@ -17,9 +18,9 @@ export function fetchAllPosts() {
   });
 }
 
-export function addPostRating({postId, rating}) {
+export function addRatingButtons({id, rating}) {
   return apiRequest({
-    endpoint: ratePost(postId),
+    endpoint: ratePost(id),
     method: methods.PUT,
     data: {
       post_rating: {
@@ -35,5 +36,18 @@ export function fetchPost(postId) {
     endpoint: posts(postId),
     method: methods.GET,
     nextAction: GET_POST,
+  });
+}
+
+export function addCommentRating({id, rating}) {
+  return apiRequest({
+    endpoint: rateComment(id),
+    method: methods.PUT,
+    data: {
+      comment_rating: {
+        rating,
+      },
+    },
+    nextAction: RATE_COMMENT,
   });
 }

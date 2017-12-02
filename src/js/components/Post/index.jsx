@@ -7,7 +7,7 @@ import {
   postsListSpacing,
   textBlockBackground,
   textBlockBorder,
-  postRatingWidth,
+  ratingButtonsWidth,
 } from '../../style-vars';
 import {fetchPost} from '../../actions/posts.action';
 import PostItem from '../PostItem';
@@ -22,7 +22,7 @@ const PostsWrapper = styled.div`
 const PostTextWrapper = styled.div`
   background: ${textBlockBackground};
   margin-top: 16px;
-  margin-left: ${postRatingWidth}px;
+  margin-left: ${ratingButtonsWidth}px;
   padding: 16px;
   border-radius: 4px;
   border: 1px solid ${textBlockBorder};

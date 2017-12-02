@@ -4,6 +4,7 @@ import {Link} from 'react-router-dom';
 import moment from 'moment';
 import styled, {css} from 'styled-components';
 
+import RatingButtons from '../RatingButtons';
 import {routeCodes} from '../../routes';
 import urlFromTemplate from '../../helpers/url-from-template';
 import {
@@ -15,6 +16,7 @@ import {
 
 
 const CommentWrapper = styled.div`
+  display: flex;
   margin-top: ${props => (props.nested ? 8 : 20)}px;
 
   &:first-child {
@@ -65,6 +67,7 @@ class Comment extends React.Component {
 
   render() {
     const {currentComment, allComments, nested} = this.props;
+    const {collapsed} = this.state;
 
     const {
       id,
@@ -72,35 +75,40 @@ class Comment extends React.Component {
       rating,
       text,
       submitted_at: submittedAt,
+      user_comment_rating: userRating,
     } = currentComment;
 
     const nestedComments = allComments.filter(c => c.parent_comment_id === id);
 
     return (
       <CommentWrapper nested={nested}>
-        <CommentDetails>
-          <CollapseButton onClick={this.toggleCollapse}>[ {this.state.collapsed ? '+' : '-'} ]</CollapseButton>
-          <Link to={urlFromTemplate(routeCodes.USER, {id: user.id})}>{user.username}</Link>{' '}
-          <CommentPoints>{rating} points</CommentPoints>{' '}
-          <span>{moment(submittedAt).fromNow()}</span>
-        </CommentDetails>
-        <CommentContentWrapper collapsed={this.state.collapsed}>
-          <div>
-            {text}
-          </div>
-          {nestedComments.length > 0 && (
-            <NestedWrapper>
-              {nestedComments.map(comment => (
-                <Comment
-                  key={comment.id}
-                  currentComment={comment}
-                  allComments={allComments}
-                  nested
-                />
-              ))}
-            </NestedWrapper>
-          )}
-        </CommentContentWrapper>
+        <RatingButtons id={id} rating={rating} userRating={userRating || 0} comment collapsed={collapsed} />
+
+        <div>
+          <CommentDetails>
+            <CollapseButton onClick={this.toggleCollapse}>[ {collapsed ? '+' : '-'} ]</CollapseButton>
+            <Link to={urlFromTemplate(routeCodes.USER, {id: user.id})}>{user.username}</Link>{' '}
+            <CommentPoints>{rating} points</CommentPoints>{' '}
+            <span>{moment(submittedAt).fromNow()}</span>
+          </CommentDetails>
+          <CommentContentWrapper collapsed={collapsed}>
+            <div>
+              {text}
+            </div>
+            {nestedComments.length > 0 && (
+              <NestedWrapper>
+                {nestedComments.map(comment => (
+                  <Comment
+                    key={comment.id}
+                    currentComment={comment}
+                    allComments={allComments}
+                    nested
+                  />
+                ))}
+              </NestedWrapper>
+            )}
+          </CommentContentWrapper>
+        </div>
       </CommentWrapper>
     );
   }

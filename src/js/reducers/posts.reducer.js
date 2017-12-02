@@ -7,6 +7,7 @@ import {
   GET_ALL_POSTS,
   GET_POST,
   RATE_POST,
+  RATE_COMMENT,
 } from '../actions/posts.action';
 import {routeCodes} from '../routes';
 import urlFromTemplate from '../helpers/url-from-template';
@@ -52,6 +53,23 @@ const posts = {
         user_post_rating: action.data.rating,
       }),
     });
+  },
+  [RATE_COMMENT]: (state, action) => {
+    if (action.isError || !state.currentPost) {
+      return state;
+    }
+
+    const commentIndex = _.findIndex(state.currentPost.comments, {id: action.data.comment_id});
+
+    if (commentIndex === -1) {
+      return state;
+    }
+
+    const pathToComment = ['currentPost', 'comments', commentIndex];
+
+    return state
+      .setIn([...pathToComment, 'user_comment_rating'], action.data.rating)
+      .setIn([...pathToComment, 'rating'], action.data.comment_rating);
   },
   [LOCATION_CHANGE]: (state, action) => {
     const currentPostId = _.get(state, 'currentPost.id');
