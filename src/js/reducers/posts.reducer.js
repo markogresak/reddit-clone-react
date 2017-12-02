@@ -6,6 +6,7 @@ import {API_REQUEST_PENDING} from '../helpers/api-request';
 import {
   GET_ALL_POSTS,
   GET_POST,
+  RATE_POST,
 } from '../actions/posts.action';
 import {routeCodes} from '../routes';
 import urlFromTemplate from '../helpers/url-from-template';
@@ -38,6 +39,18 @@ const posts = {
     return state.merge({
       currentPost: action.isError ? null : action.data,
       isPostViewLoading: false,
+    });
+  },
+  [RATE_POST]: (state, action) => {
+    if (action.isError || _.get(state, 'currentPost.id') !== _.get(action, 'data.post_id')) {
+      return state;
+    }
+
+    return state.merge({
+      currentPost: state.currentPost.merge({
+        rating: action.data.post_rating,
+        user_post_rating: action.data.rating,
+      }),
     });
   },
   [LOCATION_CHANGE]: (state, action) => {

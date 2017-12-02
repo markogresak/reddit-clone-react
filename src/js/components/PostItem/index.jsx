@@ -70,10 +70,11 @@ const PostItem = ({
     username,
     id: userId,
   },
+  user_post_rating: userRating,
 }) => {
   return (
     <PostItemWrapper>
-      <PostRating postId={id} rating={rating} />
+      <PostRating postId={id} rating={rating} userRating={userRating || 0} />
       <PostContentWrapper>
         <PostContent>
           {
@@ -112,11 +113,13 @@ PostItem.propTypes = {
     username: PropTypes.string.isRequired,
     id: PropTypes.number.isRequired,
   }).isRequired,
+  user_post_rating: PropTypes.number,
 };
 
 PostItem.defaultProps = {
   url: null,
   withoutDetails: false,
+  user_post_rating: 0,
 };
 
 export default PostItem;

@@ -26,9 +26,7 @@ const PostRatingWrapper = styled.div`
   flex-basis: ${postRatingWidth}px;
 `;
 
-const PostRating = ({postId, rating}) => {
-  // TODO: get the actual user rating
-  const userRating = 0;
+const PostRating = ({postId, rating, userRating}) => {
   return (
     <PostRatingWrapper>
       <VoteButton postId={postId} userRating={userRating} />
@@ -41,6 +39,7 @@ const PostRating = ({postId, rating}) => {
 PostRating.propTypes = {
   postId: PropTypes.number.isRequired,
   rating: PropTypes.number.isRequired,
+  userRating: PropTypes.number.isRequired,
 };
 
 export default PostRating;
