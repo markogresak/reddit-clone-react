@@ -21,7 +21,8 @@ const PostsWrapper = styled.div`
 `;
 
 const NewPostWrapper = styled.div`
-  margin-bottom: 32px;
+  margin-top: 20px;
+  margin-right: 16px;
   display: flex;
   justify-content: flex-end;
 `;
@@ -71,7 +72,7 @@ class Posts extends Component {
     const {posts, arePostsLoading} = this.props;
 
     return (
-      <PostsWrapper>
+      <div>
         {hasUserToken() &&
           <NewPostWrapper>
             <NewPostButtonWrapper>
@@ -86,9 +87,10 @@ class Posts extends Component {
             </NewPostButtonWrapper>
           </NewPostWrapper>
         }
-
-        <PostsList posts={posts} arePostsLoading={arePostsLoading} pageSize={pageSize} page={this.state.page} />
-      </PostsWrapper>
+        <PostsWrapper>
+          <PostsList posts={posts} arePostsLoading={arePostsLoading} pageSize={pageSize} page={this.state.page} />
+        </PostsWrapper>
+      </div>
     );
   }
 }
