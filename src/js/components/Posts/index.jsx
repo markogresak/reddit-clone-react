@@ -7,7 +7,7 @@ import _ from 'lodash';
 
 import {routeCodes} from '../../routes';
 import {postsListSpacing, contentWidth} from '../../style-vars';
-import PostItem from '../PostItem';
+import PostsList from './PostsList';
 import {fetchAllPosts} from '../../actions/posts.action';
 import hasScrolledToBottom from '../../helpers/has-scrolled-to-bottom';
 import urlFromTemplate from '../../helpers/url-from-template';
@@ -67,22 +67,9 @@ class Posts extends Component {
     window.removeEventListener('scroll', this.handleScroll);
   }
 
-  renderInner() {
-    const {
-      arePostsLoading,
-      posts,
-    } = this.props;
-
-    if (arePostsLoading) {
-      return (<div>Loading...</div>);
-    }
-    if (!_.isEmpty(posts)) {
-      return _.take(posts, this.state.page * pageSize).map(post => <PostItem key={post.id} {...post} />);
-    }
-    return (<div>No posts</div>);
-  }
-
   render() {
+    const {posts, arePostsLoading} = this.props;
+
     return (
       <PostsWrapper>
         {hasUserToken() &&
@@ -100,7 +87,7 @@ class Posts extends Component {
           </NewPostWrapper>
         }
 
-        {this.renderInner()}
+        <PostsList posts={posts} arePostsLoading={arePostsLoading} pageSize={pageSize} page={this.state.page} />
       </PostsWrapper>
     );
   }

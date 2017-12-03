@@ -120,7 +120,7 @@ class Comment extends React.Component {
   }
 
   render() {
-    const {currentComment, allComments, submitComment, deleteComment, nested} = this.props;
+    const {currentComment, allComments, submitComment, deleteComment, nested, disableNesting} = this.props;
     const {collapsed, showReplyForm, editMode} = this.state;
 
     const {
@@ -175,7 +175,7 @@ class Comment extends React.Component {
               <CommentForm onSubmit={this.submitReply} onClose={this.closeReplyForm} withCancelButton />
             )}
 
-            {nestedComments.length > 0 && (
+            {!disableNesting && nestedComments.length > 0 && (
               <NestedWrapper>
                 {nestedComments.map(comment => (
                   <Comment
@@ -214,10 +214,12 @@ Comment.propTypes = {
   submitComment: PropTypes.func.isRequired,
   deleteComment: PropTypes.func.isRequired,
   nested: PropTypes.bool,
+  disableNesting: PropTypes.bool,
 };
 
 Comment.defaultProps = {
   nested: false,
+  disableNesting: false,
 };
 
 export default Comment;
