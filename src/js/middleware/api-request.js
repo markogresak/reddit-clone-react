@@ -4,6 +4,8 @@ import _ from 'lodash';
 import {API_REQUEST, API_REQUEST_PENDING, methods} from '../helpers/api-request';
 import {setStorageEngine, getUserToken, setUserToken} from '../helpers/token-manager';
 
+const API_BASE = window.location.host === 'localhost' ? process.env.API_BASE : 'https://reddit-eu.herokuapp.com/api';
+
 function processResponse(response) {
   /**
    * handle 204 responses (empty body response => invalid JSON)
@@ -88,7 +90,7 @@ function performRequest({endpoint, method, data = {}, isExternalUrl}) {
     ...payload,
   };
 
-  const url = isExternalUrl ? endpoint : `${process.env.API_BASE}${endpoint}`;
+  const url = isExternalUrl ? endpoint : `${API_BASE}${endpoint}`;
 
   return fetch(`${url}${params}`, requestOptions)
     // If error occured within the fetch itself, catch it and resolve promise with error message string.
