@@ -20,6 +20,9 @@ export const rateComment = (commentId) => `${comments(commentId)}/rate`;
 // POST - login user
 export const login = () => '/login';
 
+// POST - register user
+export const register = () => '/users';
+
 // GET(id) - get user details
 // POST - add user
 // PUT(id) - edit user details

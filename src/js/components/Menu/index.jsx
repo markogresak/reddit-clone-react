@@ -1,8 +1,6 @@
 import React from 'react';
-import PropTypes from 'prop-types';
 import styled from 'styled-components';
 import {Link} from 'react-router-dom';
-import {connect} from 'react-redux';
 
 import {routeCodes} from '../../routes';
 import urlFromTemplate from '../../helpers/url-from-template';
@@ -12,18 +10,18 @@ import {
   defaultBorderColor,
 } from '../../style-vars';
 
+export const menuHeight = 40;
+
 const MenuWrapper = styled.div`
   display: flex;
   justify-content: flex-end;
   padding: 10px 16px;
   border-bottom: 1px solid ${defaultBorderColor};
+  height: ${menuHeight}px;
+  box-sizing: border-box;
 `;
 
-function Menu({pathname}) {
-  if (pathname === routeCodes.LOGIN) {
-    return null;
-  }
-
+function Menu() {
   const {
     userId,
     username,
@@ -44,23 +42,18 @@ function Menu({pathname}) {
             <Link to={routeCodes.LOGOUT}>Logout</Link>
           </span>
         ) : (
-          <span>
-            <Link to={routeCodes.LOGIN}>Login</Link>
-          </span>
+          <div>
+            <span key="register" style={{marginRight: 16}}>
+              <Link to={routeCodes.REGISTER}>Register</Link>
+            </span>
+            <span key="login">
+              <Link to={routeCodes.LOGIN}>Login</Link>
+            </span>
+          </div>
         )
       }
     </MenuWrapper>
   );
 }
 
-Menu.propTypes = {
-  pathname: PropTypes.string.isRequired,
-};
-
-function mapStateToProps(state) {
-  return {
-    pathname: state.router.location.pathname,
-  };
-}
-
-export default connect(mapStateToProps)(Menu);
+export default Menu;

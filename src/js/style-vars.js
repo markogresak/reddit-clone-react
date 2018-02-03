@@ -7,6 +7,7 @@ export const linkColor = '#0074D9';
 export const textBlockBackground = '#f7f7f7';
 export const textBlockBorder = '#DDD';
 export const dangerColor = '#e53935';
+export const successColor = '#7CB342';
 export const defaultBorderColor = '#E0E0E0';
 
 export function getColorBasedOnRating(userRating) {
@@ -25,11 +26,5 @@ export const postSpacing = 15;
 
 export const ratingButtonsWidth = 50;
 export const ratingButtonsTextSpacing = 6;
-
-export const inputStyle = {
-  border: '1px solid #E0E0E0',
-  borderRadius: 4,
-  padding: 8,
-};
 
 export const contentWidth = 960;

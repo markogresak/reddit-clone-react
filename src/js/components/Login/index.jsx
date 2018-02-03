@@ -1,38 +1,66 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import {Redirect} from 'react-router-dom';
-import styled from 'styled-components';
+import styled, {css} from 'styled-components';
 import {connect} from 'react-redux';
 import _ from 'lodash';
 
-import {inputStyle} from '../../style-vars';
+import {dangerColor, successColor} from '../../style-vars';
 import {routeCodes} from '../../routes';
 import {hasUserToken} from '../../helpers/token-manager';
 import {submitLogin} from '../../actions/auth.action';
 import ApiErrors from '../ApiErrors';
+import {menuHeight} from '../Menu';
 
-const LoginWrapper = styled.div`
+export const LoginWrapper = styled.div`
   width: 100vw;
-  height: 100vh;
+  height: calc(100vh - ${menuHeight}px);
   display: flex;
   align-items: center;
   justify-content: center;
 `;
 
-const LoginFormContainer = styled.div`
+export const LoginFormContainer = styled.div`
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: space-between;
+  width: 220px;
 `;
 
-const inputMarginBottom = 12;
+export const inputMarginBottom = 12;
 
-const loginInputStyle = {
-  ...inputStyle,
-  width: '100%',
-  marginBottom: inputMarginBottom,
-};
+export const LoginInput = styled.input`
+  border: 1px solid #E0E0E0;
+  border-radius: 4px;
+  padding: 8px;
+  width: 100%;
+  margin-bottom: ${inputMarginBottom}px;
+  ${props => props.error && css`color: ${dangerColor}`}
+`;
+
+export const LoginLabel = styled.label`
+  align-self: left;
+  margin-bottom: ${inputMarginBottom / 2}px;
+  margin-left: -8px;
+  ${props => props.error && css`color: ${dangerColor}`}
+`;
+
+const CheckboxWrapper = LoginLabel.extend`
+  margin-bottom: ${inputMarginBottom}px;
+`;
+
+export const FormError = styled.small`
+  width: 200px;
+  color: ${dangerColor};
+  margin-top: -${inputMarginBottom / 2}px;
+  margin-bottom: ${inputMarginBottom}px;
+`;
+
+const FormSuccess = styled.strong`
+  margin: 16px 0;
+  color: ${successColor};
+`;
 
 class Login extends React.Component {
   onFormSubmit = (e) => {
@@ -48,7 +76,7 @@ class Login extends React.Component {
   }
 
   render() {
-    const {isLoginLoading, errors} = this.props;
+    const {isLoginLoading, errors, location: {state: registerSuccess}} = this.props;
 
     if (hasUserToken()) {
       return (
@@ -62,13 +90,19 @@ class Login extends React.Component {
           <LoginFormContainer>
             <ApiErrors errors={errors} />
 
-            <input style={loginInputStyle} type="text" name="username" required />
-            <input style={loginInputStyle} type="password" name="password" required />
+            {registerSuccess &&
+              <FormSuccess>The registration was successful. You can now login with the chosen username and password.</FormSuccess>
+            }
 
-            <span style={{alignSelf: 'left', marginBottom: inputMarginBottom}}>
+            <LoginLabel htmlFor="username">Username</LoginLabel>
+            <LoginInput type="text" name="username" required />
+            <LoginLabel htmlFor="password">Password</LoginLabel>
+            <LoginInput type="password" name="password" required />
+
+            <CheckboxWrapper>
               <input type="checkbox" name="rememberMe" id="rememberMe" defaultChecked />
               <label htmlFor="rememberMe" style={{marginLeft: 8}}>Remember me</label>
-            </span>
+            </CheckboxWrapper>
 
             <button type="submit" disabled={isLoginLoading}>
               {isLoginLoading ? 'Logging in...' : 'Login'}
@@ -84,6 +118,9 @@ Login.propTypes = {
   submitLogin: PropTypes.func.isRequired,
   isLoginLoading: PropTypes.bool.isRequired,
   errors: PropTypes.array.isRequired,
+  location: PropTypes.shape({
+    state: PropTypes.object,
+  }).isRequired,
 };
 
 function mapStateToProps(state) {

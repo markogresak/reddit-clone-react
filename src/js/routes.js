@@ -10,6 +10,7 @@ import NewPost from './components/NewPost';
 import User from './components/User';
 import Login from './components/Login';
 import Logout from './components/Logout';
+import Register from './components/Register';
 import NotFound from './components/NotFound';
 
 const publicPath = '/';
@@ -21,6 +22,7 @@ export const routeCodes = {
   USER: `${publicPath}users/:id/:tab?`,
   LOGIN: `${publicPath}login`,
   LOGOUT: `${publicPath}logout`,
+  REGISTER: `${publicPath}register`,
 };
 
 const Routes = ({history}) => {
@@ -35,6 +37,7 @@ const Routes = ({history}) => {
             <Route path={routeCodes.USER} component={User} />
             <Route path={routeCodes.LOGIN} component={Login} />
             <Route path={routeCodes.LOGOUT} component={Logout} />
+            <Route path={routeCodes.REGISTER} component={Register} />
             <Route component={NotFound} />
           </Switch>
         </App>
