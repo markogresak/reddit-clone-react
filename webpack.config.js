@@ -20,7 +20,7 @@ const sourcePath = path.join(__dirname, './src');
 
 const devPort = process.env.PORT || 8080;
 
-const publicPath = isProduction ? path.basename(__dirname) : '/';
+const publicPath = isProduction ? `/${path.basename(__dirname)}` : '/';
 
 // Common plugins
 const plugins = [
