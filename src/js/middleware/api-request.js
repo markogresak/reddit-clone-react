@@ -4,7 +4,7 @@ import _ from 'lodash';
 import {API_REQUEST, API_REQUEST_PENDING, methods} from '../helpers/api-request';
 import {setStorageEngine, getUserToken, setUserToken} from '../helpers/token-manager';
 
-const API_BASE = window.location.host === 'localhost' ? process.env.API_BASE : 'https://reddit-eu.herokuapp.com/api';
+const API_BASE = window.location.hostname === 'localhost' ? process.env.API_BASE : 'https://reddit-eu.herokuapp.com/api';
 
 function processResponse(response) {
   /**
