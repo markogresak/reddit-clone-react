@@ -20,6 +20,8 @@ const sourcePath = path.join(__dirname, './src');
 
 const devPort = process.env.PORT || 8080;
 
+const publicPath = isProduction ? path.basename(__dirname) : '/';
+
 // Common plugins
 const plugins = [
   new webpack.optimize.CommonsChunkPlugin({
@@ -121,7 +123,7 @@ module.exports = {
   entry,
   output: {
     path: buildPath,
-    publicPath: '/',
+    publicPath,
     filename: 'app-[hash].js',
   },
   module: {
