@@ -16,7 +16,7 @@ $ yarn
 $ yarn start
 ```
 
-Visit `http://localhost:3000/` from your browser of choice.
+Visit `http://localhost:8080/` from your browser of choice.
 Server is visible from the local network as well.
 
 ## Build (production)
