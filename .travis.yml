@@ -1,22 +1,22 @@
 language: node_js
 node_js:
-  - "8"
+- '8'
 
 cache:
   yarn: true
   directories:
-    - node_modules
-    - .eslintcache
+  - node_modules
+  - ".eslintcache"
 
 script:
-  - yarn run lint
-  - yarn run build
+- yarn run lint
+- yarn run build
 
 deploy:
   provider: s3
   access_key_id: AKIAISUBU6HCQXMJXFPA
   secret_access_key:
-    secure: ANSgrxopshMGQHfgpbPV8rMIFe152tqDVnLauNylT2v7ybkR58esE6EteAUoGe1DAaT43JqKJr610jbI5StjHea5WN3oxcQGq/iJTeT2hBVot+/oyLbr4lk+uB8wCjSZq1ULr3fqi6XUg1yxagtqyfDtTmvBn5hHV6ziq0LERtdDor+FlzDZjYimma7Apwpdb7HzvN13WGWvGmjQl2uRphAJWe6OtB6gSiOsQkUc26Zf4UUlK2jV02Wh8fHEqQlEbeu797HVQqHZKupzMDYnvmfJxoOrGaYH2tddOU+ztSK9kR+TiW7h9q/uqyxXVnzUCsAl+IuQG/lJgqMB04U9mIhrShu1LOfKxBvJpb7VPBgaCiJIEG1Nwa/6l2+2naU04PgAZjgvsCixjKs0vd6KrDAupBmmmmfoOauaWG1RT0m5m6stxFVO/oLZL+/qEVUmdFO1Zl1DlQ3E2BdYFjuuxWIxnEIMIFl2HsSavEI1Vf/snmHvkg2mgz2Ufz5XySGVVxsjZDyN8pl2YDkj5cp1/BHcdwoSCLL6hA3F9VfMBcUmqkcHbr1PisaBTDnDiGIhLyDZzciRQewIr4L1cblDjL09HnhY0K04/HtEqbdgshSpme6Vxlpwi6qwKeMd1I6BJ04kF4mrXZGuAJCSDaKfOebmeOcOtYZzT6EhcRteUOM=
+    secure: eLudhPLqDQdsd1FcOBLSKZLf4qyZhPDtUoDy0lz6NBMT+v0aUK+4Y6C/H3DuZwJcbL9/pi7n24tGMtIMn6+hTvkWoOHSeUs7MqjxejuEWbwffhft6BJKRotHtptBUwufgRo5KX3u0Kd42SFE/r4+xl8w4az+CfmhnpdUl0vwREXyYTk+cCSTF6KUDfdxKSyVT47k3HyDu1/24tjkL8MtACuXib5OqCXu0+fjXyiAfKC21zvAdUWBNlHsR7dZMbCIKpr3CnIdpEWW8Pqf4fYRWFM3ATsj4W1/UvFJ6bNKnKRvpJrcYHYzIwUepZtiyY2sHPFlnyu88i2vm3t45QzWdPHBkunAvCbWX/MgIHMYIaOogc7vCkVX5CFW3h65rfCZtCHqbY8bXFc+qlAMAOWGxhTr3yUptJ9aU8WrI5WpldTNr5YmhmHv+88f29lRNmyGrtHD+uolWJuSPYIOIBDN51+55HJ1peGQXL8KEDglj9cGJExFxnprHdscW2OmEM5xSlC5/3xj7q6Lgv3siECBjgrLcg8YYMVhhAtfVqqnJexZp3ZX+AyFfS6MjTPMSDm9pTiQ9BMxoy+aVgA5NZIBJ3/XXr/CyVdSMVHt+3TGuUQ1fIu/xInGVXzTJmrdG3R7zstwOpR/2Iw5HxWQyMejzCtChwIV1FMOlW+MBY14GXM=
   bucket: reddit-clone-react.gresak.io
   local-dir: build
   acl: public_read
