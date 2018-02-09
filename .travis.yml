@@ -1,24 +1,30 @@
 language: node_js
 node_js:
-- '8'
+  - "8"
 
 cache:
   yarn: true
   directories:
-  - node_modules
+  - "node_modules"
   - ".eslintcache"
 
 script:
-- yarn run lint
-- yarn run build
+  - yarn run lint
+  - yarn run build
 
 deploy:
+  # do not remove files created in build stage
+  skip_cleanup: true
   provider: s3
   access_key_id: AKIAISUBU6HCQXMJXFPA
   secret_access_key:
-    secure: eLudhPLqDQdsd1FcOBLSKZLf4qyZhPDtUoDy0lz6NBMT+v0aUK+4Y6C/H3DuZwJcbL9/pi7n24tGMtIMn6+hTvkWoOHSeUs7MqjxejuEWbwffhft6BJKRotHtptBUwufgRo5KX3u0Kd42SFE/r4+xl8w4az+CfmhnpdUl0vwREXyYTk+cCSTF6KUDfdxKSyVT47k3HyDu1/24tjkL8MtACuXib5OqCXu0+fjXyiAfKC21zvAdUWBNlHsR7dZMbCIKpr3CnIdpEWW8Pqf4fYRWFM3ATsj4W1/UvFJ6bNKnKRvpJrcYHYzIwUepZtiyY2sHPFlnyu88i2vm3t45QzWdPHBkunAvCbWX/MgIHMYIaOogc7vCkVX5CFW3h65rfCZtCHqbY8bXFc+qlAMAOWGxhTr3yUptJ9aU8WrI5WpldTNr5YmhmHv+88f29lRNmyGrtHD+uolWJuSPYIOIBDN51+55HJ1peGQXL8KEDglj9cGJExFxnprHdscW2OmEM5xSlC5/3xj7q6Lgv3siECBjgrLcg8YYMVhhAtfVqqnJexZp3ZX+AyFfS6MjTPMSDm9pTiQ9BMxoy+aVgA5NZIBJ3/XXr/CyVdSMVHt+3TGuUQ1fIu/xInGVXzTJmrdG3R7zstwOpR/2Iw5HxWQyMejzCtChwIV1FMOlW+MBY14GXM=
-  bucket: reddit-clone-react.gresak.io
-  local-dir: build
-  acl: public_read
+    secure: daFwPRX+rembrFGdTGnNkxdpjD+eMOPAeAD64WM3n0MhX4vIfCLEEfUwnZSAJZEQ+UeAOYjpAWTj70STbwqUemm4ggW+F12Ev3jSA01gjvAjuB1O6RJB4et6M1MorSH+3ZlO/VpoQZpVPR8zm29VhdRb6y5pHwQ7JiXVF16MIGJKkLunvtsGTua1powi++Er18FjZbKADqIaiCnCkU1Cjm2brwdY13CgWitUI4KPPw5+hJbKb42CSss9M6Wqb/QejeJchs7tJq5w/1iMZYDvwvSmc3K4ODtE1L3I0sV0fS6X4OPIRNgzT84MT79Xu5gY15y6R86pJ+pFTJvTX7pZ3OWUpEpWGac019stnDeRnZpNmehdQ+N75we7eGOg85iIKa2MQw+TgOuL/ZjSCbUZ7kiqphx+8jp54NbMSh3GshQT1xZPsoXJILVuAi2BDajaUnlafR+Y4VYA+yslnMbTPicj9Edm8cYicpdT6lC1T7GgsnMFPlkt5YMMkTbXGf5SRQIFQfEzjnf2qIvan3hu4ARFb14geH79s7i6ideu6GfpEVTNCjPrpBzcrbdNyIej5So+1flKVi97GG+Vsn5TUIshFeHH7mrNHy5Rj/+weiFW9EzawNNcQxlzemcNDhNyiNSQO/VUIVRBa8ZN59lrJYEYahT3FtnZ0q6xShRRCmc=
+  region: "eu-west-1"
+  bucket: "reddit-clone-react.gresak.io"
+  acl: "public_read"
+  detect_encoding: true
+  default_text_charset: "utf-8"
+  local_dir: "build"
   on:
     repo: markogresak/reddit-clone-react
+    branch: master
