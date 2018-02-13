@@ -120,7 +120,7 @@ class Comment extends React.Component {
   }
 
   render() {
-    const {currentComment, allComments, submitComment, deleteComment, nested, disableNesting} = this.props;
+    const {currentComment, allComments, submitComment, deleteComment, nested, disableNesting, hideButtons} = this.props;
     const {collapsed, showReplyForm, editMode} = this.state;
 
     const {
@@ -159,7 +159,7 @@ class Comment extends React.Component {
                 <span>{text}</span>
               )}
             </div>
-            {hasUserToken() &&
+            {hasUserToken() && !hideButtons &&
               <span>
                 <ActionLink onClick={this.openReplyForm}>Reply</ActionLink>
                 {currentUserId === user.id &&
@@ -215,11 +215,13 @@ Comment.propTypes = {
   deleteComment: PropTypes.func.isRequired,
   nested: PropTypes.bool,
   disableNesting: PropTypes.bool,
+  hideButtons: PropTypes.bool,
 };
 
 Comment.defaultProps = {
   nested: false,
   disableNesting: false,
+  hideButtons: false,
 };
 
 export default Comment;

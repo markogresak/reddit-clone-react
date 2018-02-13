@@ -86,6 +86,7 @@ class User extends React.Component {
               submitComment={() => {}}
               deleteComment={() => {}}
               disableNesting
+              hideButtons
             />
           ))
         }
