@@ -35,22 +35,23 @@ function urlFromTemplate(templateUrl, params = {}) {
     return err(`urlFromTemplate: Expecting templateUrl to be a string, got ${getType(templateUrl)}`);
   }
 
-  const placeholders = (templateUrl.match(allPlaceholdersRe) || [])
-    .map(placeholder => ({
-      key: placeholder.match(placeholderRe)[1],
-      regex: new RegExp(`(${placeholder.replace('?', '\\?')})`),
-      optional: placeholder[placeholder.length - 1] === '?',
-    }));
+  const placeholders = (templateUrl.match(allPlaceholdersRe) || []).map(placeholder => ({
+    key: placeholder.match(placeholderRe)[1],
+    regex: new RegExp(`(${placeholder.replace('?', '\\?')})`),
+    optional: placeholder[placeholder.length - 1] === '?',
+  }));
 
   const missingParams = placeholders
-    .filter(({key, optional}) => !optional && params[key] === undefined)
-    .map(({key}) => `"${key}"`);
+    .filter(({ key, optional }) => !optional && params[key] === undefined)
+    .map(({ key }) => `"${key}"`);
 
   if (missingParams.length !== 0) {
-    return err(`urlFromTemplate: Missing ${missingParams.join(', ')} params, got params = ${JSON.stringify(params, replacer)}`);
+    return err(
+      `urlFromTemplate: Missing ${missingParams.join(', ')} params, got params = ${JSON.stringify(params, replacer)}`,
+    );
   }
 
-  const arePlaceholdersValid = placeholders.every(({key, optional}) => {
+  const arePlaceholdersValid = placeholders.every(({ key, optional }) => {
     const type = getType(params[key]);
     if (!optional && type !== 'number' && type !== 'string') {
       return err(`urlFromTemplate: Expecting params "${key}" value to be a number or a string, got ${type}`);
@@ -63,7 +64,7 @@ function urlFromTemplate(templateUrl, params = {}) {
   }
 
   return placeholders
-    .reduce((url, {key, regex}) => url.replace(regex, params[key] || ''), templateUrl)
+    .reduce((url, { key, regex }) => url.replace(regex, params[key] || ''), templateUrl)
     .replace(/\/*$/, '') // remove trailing slash(es)
     .replace(/\/+/g, '/'); // replace multiple slashes with a single slash
 }

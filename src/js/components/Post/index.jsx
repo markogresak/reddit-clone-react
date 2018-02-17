@@ -1,6 +1,6 @@
-import React, {Component} from 'react';
+import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import {connect} from 'react-redux';
+import { connect } from 'react-redux';
 import styled from 'styled-components';
 import _ from 'lodash';
 
@@ -11,7 +11,7 @@ import {
   ratingButtonsWidth,
   contentWidth,
 } from '../../style-vars';
-import {fetchPost, addOrEditComment, deleteComment} from '../../actions/posts.action';
+import { fetchPost, addOrEditComment, deleteComment } from '../../actions/posts.action';
 import PostItem from '../PostItem';
 import Comment from '../Comment';
 import CommentForm from '../CommentForm';
@@ -53,7 +53,7 @@ class Post extends Component {
     });
 
     return true;
-  }
+  };
 
   componentWillMount() {
     const postId = parseInt(this.props.match.params.id, 10);
@@ -61,11 +61,7 @@ class Post extends Component {
   }
 
   render() {
-    const {
-      isPostViewLoading,
-      currentPost,
-      deleteComment,
-    } = this.props;
+    const { isPostViewLoading, currentPost, deleteComment } = this.props;
 
     if (!currentPost || isPostViewLoading) {
       return <div>Loading...</div>;
@@ -76,12 +72,10 @@ class Post extends Component {
     return (
       <PostsWrapper>
         <PostItem {...currentPost} />
-        {currentPost.text && (
-          <PostTextWrapper>{currentPost.text}</PostTextWrapper>
-        )}
+        {currentPost.text && <PostTextWrapper>{currentPost.text}</PostTextWrapper>}
 
         <PostContentWrapper>
-          <div style={{marginTop: 16}}>
+          <div style={{ marginTop: 16 }}>
             <strong>{currentPost.comments.length} comments</strong>
             <hr />
           </div>
@@ -128,4 +122,8 @@ function mapStateToProps(state) {
   };
 }
 
-export default connect(mapStateToProps, {fetchPost, addOrEditComment, deleteComment})(Post);
+export default connect(mapStateToProps, {
+  fetchPost,
+  addOrEditComment,
+  deleteComment,
+})(Post);

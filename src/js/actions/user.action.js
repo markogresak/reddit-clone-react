@@ -1,5 +1,5 @@
-import {users} from '../endpoints';
-import apiRequest, {methods} from '../helpers/api-request';
+import { users } from '../endpoints';
+import apiRequest, { methods } from '../helpers/api-request';
 
 export const FETCH_USER = 'FETCH_USER';
 

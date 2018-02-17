@@ -1,8 +1,8 @@
 import Immutable from 'seamless-immutable';
-import {LOCATION_CHANGE} from 'react-router-redux';
+import { LOCATION_CHANGE } from 'react-router-redux';
 import _ from 'lodash';
 
-import {API_REQUEST_PENDING} from '../helpers/api-request';
+import { API_REQUEST_PENDING } from '../helpers/api-request';
 import {
   GET_ALL_POSTS,
   GET_POST,
@@ -13,7 +13,7 @@ import {
   EDIT_COMMENT,
   DELETE_COMMENT,
 } from '../actions/posts.action';
-import {routeCodes} from '../routes';
+import { routeCodes } from '../routes';
 import urlFromTemplate from '../helpers/url-from-template';
 
 const initialState = Immutable({
@@ -65,9 +65,9 @@ const posts = {
       return state;
     }
 
-    const {post_id: postId} = action.data;
+    const { post_id: postId } = action.data;
     const shouldUpdateCurrentPost = _.get(state, 'currentPost.id') === postId;
-    const postIndex = _.findIndex(state.allPosts, {id: postId});
+    const postIndex = _.findIndex(state.allPosts, { id: postId });
 
     const updatedPostData = {
       rating: action.data.post_rating,
@@ -77,7 +77,11 @@ const posts = {
     let nextState = state;
     if (postIndex >= 0) {
       const postPath = ['allPosts', postIndex];
-      nextState = _.reduce(updatedPostData, (nextState, val, key) => nextState.setIn([...postPath, key], val), nextState);
+      nextState = _.reduce(
+        updatedPostData,
+        (nextState, val, key) => nextState.setIn([...postPath, key], val),
+        nextState,
+      );
     }
 
     return nextState.merge({
@@ -91,7 +95,9 @@ const posts = {
       return state;
     }
 
-    const commentIndex = _.findIndex(state.currentPost.comments, {id: action.data.comment_id});
+    const commentIndex = _.findIndex(state.currentPost.comments, {
+      id: action.data.comment_id,
+    });
 
     if (commentIndex === -1) {
       return state;
@@ -120,14 +126,15 @@ const posts = {
       return state;
     }
 
-    const commentIndex = _.findIndex(state.currentPost.comments, {id: action.data.id});
+    const commentIndex = _.findIndex(state.currentPost.comments, {
+      id: action.data.id,
+    });
 
     if (commentIndex === -1) {
       return state;
     }
 
-    return state.set('addCommentPending', false)
-      .setIn(['currentPost', 'comments', commentIndex], action.data);
+    return state.set('addCommentPending', false).setIn(['currentPost', 'comments', commentIndex], action.data);
   },
   [DELETE_COMMENT]: (state, action) => {
     if (action.isError) {
@@ -143,7 +150,10 @@ const posts = {
   },
   [LOCATION_CHANGE]: (state, action) => {
     const currentPostId = _.get(state, 'currentPost.id');
-    if (currentPostId && _.get(action, 'payload.pathname') === urlFromTemplate(routeCodes.POST, {id: currentPostId})) {
+    if (
+      currentPostId &&
+      _.get(action, 'payload.pathname') === urlFromTemplate(routeCodes.POST, { id: currentPostId })
+    ) {
       return state;
     }
     return state.merge({

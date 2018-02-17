@@ -4,22 +4,19 @@ import 'whatwg-fetch';
 
 import React from 'react';
 import ReactDOM from 'react-dom';
-import {createStore} from 'redux';
+import { createStore } from 'redux';
 import createHistory from 'history/createBrowserHistory';
-import {AppContainer} from 'react-hot-loader';
-import {injectGlobal} from 'styled-components';
+import { AppContainer } from 'react-hot-loader';
+import { injectGlobal } from 'styled-components';
 import styledNormalize from 'styled-normalize';
 
 import getMiddleware from './middleware';
 import rootReducer from './reducers';
 import RootContainer from './components/RootContainer';
-import {
-  linkColor,
-  defaultTextColor,
-} from './style-vars';
+import { linkColor, defaultTextColor } from './style-vars';
 
 const history = createHistory();
-const store = createStore(rootReducer, getMiddleware({history}));
+const store = createStore(rootReducer, getMiddleware({ history }));
 
 function globalStyles() {
   return injectGlobal`
@@ -46,7 +43,7 @@ const render = () => {
     <AppContainer>
       <RootContainer store={store} history={history} />
     </AppContainer>,
-    document.getElementById('root')
+    document.getElementById('root'),
   );
 };
 

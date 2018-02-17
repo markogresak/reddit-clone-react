@@ -1,35 +1,29 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import {Redirect} from 'react-router-dom';
-import {connect} from 'react-redux';
+import { Redirect } from 'react-router-dom';
+import { connect } from 'react-redux';
 import _ from 'lodash';
 
-import {routeCodes} from '../../routes';
-import {hasUserToken} from '../../helpers/token-manager';
-import {submitRegister} from '../../actions/auth.action';
+import { routeCodes } from '../../routes';
+import { hasUserToken } from '../../helpers/token-manager';
+import { submitRegister } from '../../actions/auth.action';
 import ApiErrors from '../ApiErrors';
-import {
-  LoginWrapper,
-  LoginFormContainer,
-  LoginLabel,
-  LoginInput,
-  FormError,
-} from '../Login';
+import { LoginWrapper, LoginFormContainer, LoginLabel, LoginInput, FormError } from '../Login';
 
 class Register extends React.Component {
   state = {
     passwordConfirmationError: false,
-  }
+  };
 
-  onFormSubmit = (e) => {
+  onFormSubmit = e => {
     e.preventDefault();
-    this.setState({passwordConfirmationError: false});
+    this.setState({ passwordConfirmationError: false });
 
     const password = _.get(e.target, 'password.value');
     const passwordConfirmation = _.get(e.target, 'password_confirmation.value');
 
     if (password !== passwordConfirmation) {
-      this.setState({passwordConfirmationError: true});
+      this.setState({ passwordConfirmationError: true });
       return false;
     }
 
@@ -40,31 +34,25 @@ class Register extends React.Component {
 
     this.props.submitRegister(newUserData);
     return true;
-  }
+  };
 
   render() {
-    const {isRegisterLoading, errors, registerSuccess} = this.props;
-    const {passwordConfirmationError: error} = this.state;
+    const { isRegisterLoading, errors, registerSuccess } = this.props;
+    const { passwordConfirmationError: error } = this.state;
 
     if (hasUserToken()) {
-      return (
-        <Redirect to={routeCodes.HOME} />
-      );
+      return <Redirect to={routeCodes.HOME} />;
     }
 
     if (registerSuccess) {
-      return (
-        <Redirect to={{pathname: routeCodes.LOGIN, state: {registerSuccess}}} />
-      );
+      return <Redirect to={{ pathname: routeCodes.LOGIN, state: { registerSuccess } }} />;
     }
 
     return (
       <LoginWrapper>
         <form onSubmit={this.onFormSubmit}>
           <LoginFormContainer>
-            {!error &&
-              <ApiErrors errors={errors} />
-            }
+            {!error && <ApiErrors errors={errors} />}
 
             <LoginLabel htmlFor="username">Username</LoginLabel>
             <LoginInput type="text" name="username" required />
@@ -72,11 +60,11 @@ class Register extends React.Component {
             <LoginLabel htmlFor="password">Password</LoginLabel>
             <LoginInput type="password" name="password" required />
 
-            <LoginLabel htmlFor="password_confirmation" error={error}>Password confirmation</LoginLabel>
+            <LoginLabel htmlFor="password_confirmation" error={error}>
+              Password confirmation
+            </LoginLabel>
             <LoginInput type="password" name="password_confirmation" required error={error} />
-            {error &&
-              <FormError>Password confirmation must match the value for Password.</FormError>
-            }
+            {error && <FormError>Password confirmation must match the value for Password.</FormError>}
 
             <button type="submit" disabled={isRegisterLoading}>
               {isRegisterLoading ? 'Registering new user...' : 'Register'}
@@ -103,4 +91,4 @@ function mapStateToProps(state) {
   };
 }
 
-export default connect(mapStateToProps, {submitRegister})(Register);
+export default connect(mapStateToProps, { submitRegister })(Register);

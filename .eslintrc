@@ -1,5 +1,7 @@
 extends:
-  eslint-config-airbnb
+  - eslint-config-airbnb
+  - plugin:prettier/recommended
+  - prettier/react
 
 parser:
   babel-eslint
@@ -38,13 +40,13 @@ rules:
   no-return-assign: 0
   quote-props: 0
   template-curly-spacing: [2, "never"]
-  object-curly-spacing: [2, "never"]
+  object-curly-spacing: [2, "always"]
   comma-dangle: ["error", {
     "arrays": "always-multiline",
     "objects": "always-multiline",
     "imports": "always-multiline",
     "exports": "always-multiline",
-    "functions": "never"
+    "functions": "always-multiline"
   }]
   jsx-quotes: [2, "prefer-double"]
   jsx-a11y/no-static-element-interactions: 0
@@ -59,3 +61,4 @@ rules:
   react/sort-comp: 0
   jsx-a11y/media-has-caption: 0
   jsx-a11y/iframe-has-title: 0
+  prettier/prettier: "error"

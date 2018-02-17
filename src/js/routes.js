@@ -1,7 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import {Route, Switch} from 'react-router-dom';
-import {ConnectedRouter} from 'react-router-redux';
+import { Route, Switch } from 'react-router-dom';
+import { ConnectedRouter } from 'react-router-redux';
 
 import App from './components/App';
 import Posts from './components/Posts';
@@ -25,7 +25,7 @@ export const routeCodes = {
   REGISTER: `${publicPath}register`,
 };
 
-const Routes = ({history}) => {
+const Routes = ({ history }) => {
   return (
     <ConnectedRouter history={history}>
       <div>

@@ -22,14 +22,7 @@ export const methods = {
  *                                Does not affect the request. The idea is to help for example with optimistic updates.
  * @return  {Promise}           Action compatible with api-request middleware.
  */
-function generateApiRequest({
-  endpoint,
-  nextAction,
-  method,
-  data = {},
-  metadata = {},
-  isExternalUrl = false,
-}) {
+function generateApiRequest({ endpoint, nextAction, method, data = {}, metadata = {}, isExternalUrl = false }) {
   if (!endpoint) {
     throw new Error('Missing argument "endpoint" in apiRequest function');
   }

@@ -1,14 +1,14 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import {connect} from 'react-redux';
-import {Link, Redirect} from 'react-router-dom';
+import { connect } from 'react-redux';
+import { Link, Redirect } from 'react-router-dom';
 import styled from 'styled-components';
 
 import PostsList from '../Posts/PostsList';
 import Comment from '../Comment';
-import {fetchUser} from '../../actions/user.action';
-import {contentWidth, postsListSpacing} from '../../style-vars';
-import {routeCodes} from '../../routes';
+import { fetchUser } from '../../actions/user.action';
+import { contentWidth, postsListSpacing } from '../../style-vars';
+import { routeCodes } from '../../routes';
 import urlFromTemplate from '../../helpers/url-from-template';
 
 const UsersWrapper = styled.div`
@@ -33,24 +33,17 @@ const userTabs = {
 class User extends React.Component {
   userId = () => {
     return this.props.match.params.id;
-  }
+  };
 
   componentWillMount() {
     this.props.fetchUser(this.userId());
   }
 
   render() {
-    const {
-      isUserLoading,
-      currentUser,
-      match: {params: {tab, id}},
-    } = this.props;
-
+    const { isUserLoading, currentUser, match: { params: { tab, id } } } = this.props;
 
     if (!tab) {
-      return (
-        <Redirect to={urlFromTemplate(routeCodes.USER, {id, tab: userTabs.posts})} />
-      );
+      return <Redirect to={urlFromTemplate(routeCodes.USER, { id, tab: userTabs.posts })} />;
     }
 
     return (
@@ -59,12 +52,15 @@ class User extends React.Component {
 
         <TabsWrapper>
           <TabButtonWrapper>
-            <Link to={urlFromTemplate(routeCodes.USER, {id, tab: userTabs.posts})}>
-              Posts
-            </Link>
+            <Link to={urlFromTemplate(routeCodes.USER, { id, tab: userTabs.posts })}>Posts</Link>
           </TabButtonWrapper>
           <TabButtonWrapper>
-            <Link to={urlFromTemplate(routeCodes.USER, {id, tab: userTabs.comments})}>
+            <Link
+              to={urlFromTemplate(routeCodes.USER, {
+                id,
+                tab: userTabs.comments,
+              })}
+            >
               Comments
             </Link>
           </TabButtonWrapper>
@@ -72,9 +68,7 @@ class User extends React.Component {
 
         <hr />
 
-        {tab === userTabs.posts &&
-          <PostsList posts={currentUser.posts} arePostsLoading={isUserLoading} />
-        }
+        {tab === userTabs.posts && <PostsList posts={currentUser.posts} arePostsLoading={isUserLoading} />}
 
         {tab === userTabs.comments &&
           currentUser.comments.map(comment => (
@@ -88,8 +82,7 @@ class User extends React.Component {
               disableNesting
               hideButtons
             />
-          ))
-        }
+          ))}
       </UsersWrapper>
     );
   }
@@ -114,4 +107,4 @@ function mapStateToProps(state) {
   };
 }
 
-export default connect(mapStateToProps, {fetchUser})(User);
+export default connect(mapStateToProps, { fetchUser })(User);

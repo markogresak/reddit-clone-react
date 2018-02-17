@@ -1,14 +1,14 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
-import {dangerColor} from '../../style-vars';
+import { dangerColor } from '../../style-vars';
 
 const errorStyle = {
   marginBottom: 16,
   color: dangerColor,
 };
 
-const ApiErrors = ({errors, errorMessageKey}) => {
+const ApiErrors = ({ errors, errorMessageKey }) => {
   if (errors.length === 0) {
     return null;
   }
@@ -20,9 +20,7 @@ const ApiErrors = ({errors, errorMessageKey}) => {
       ) : (
         <div>
           <strong>Errors:</strong>
-          <ul>
-            {errors.map(({[errorMessageKey]: message}) => <li key={message}>{message}</li>)}
-          </ul>
+          <ul>{errors.map(({ [errorMessageKey]: message }) => <li key={message}>{message}</li>)}</ul>
         </div>
       )}
     </div>

@@ -1,10 +1,10 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import {Provider} from 'react-redux';
+import { Provider } from 'react-redux';
 
 import Routes from '../../routes';
 
-const RootContainer = ({store, history}) => {
+const RootContainer = ({ store, history }) => {
   return (
     <Provider store={store}>
       <Routes history={history} />

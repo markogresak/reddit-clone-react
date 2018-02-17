@@ -1,4 +1,4 @@
-import {createStore} from 'store/src/store-engine';
+import { createStore } from 'store/src/store-engine';
 import defaultStore from 'store';
 import sessionStorageEngine from 'store/storages/sessionStorage';
 import _ from 'lodash';

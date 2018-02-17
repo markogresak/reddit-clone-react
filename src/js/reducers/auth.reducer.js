@@ -1,8 +1,8 @@
 import Immutable from 'seamless-immutable';
 import _ from 'lodash';
 
-import {API_REQUEST_PENDING} from '../helpers/api-request';
-import {LOGIN_PROCESSED, REGISTER_PROCESSED} from '../actions/auth.action';
+import { API_REQUEST_PENDING } from '../helpers/api-request';
+import { LOGIN_PROCESSED, REGISTER_PROCESSED } from '../actions/auth.action';
 
 const initialState = Immutable({
   isLoginLoading: false,
@@ -13,7 +13,7 @@ const initialState = Immutable({
 });
 
 function mapErrors(action) {
-  return _.flatMap(_.first(action.errors), (errs, key) => _.map(errs, e => ({message: `${key} ${e}`})));
+  return _.flatMap(_.first(action.errors), (errs, key) => _.map(errs, e => ({ message: `${key} ${e}` })));
 }
 
 const auth = {

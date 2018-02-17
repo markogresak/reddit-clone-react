@@ -1,10 +1,11 @@
 import queryString from 'query-string';
 import _ from 'lodash';
 
-import {API_REQUEST, API_REQUEST_PENDING, methods} from '../helpers/api-request';
-import {setStorageEngine, getUserToken, setUserToken} from '../helpers/token-manager';
+import { API_REQUEST, API_REQUEST_PENDING, methods } from '../helpers/api-request';
+import { setStorageEngine, getUserToken, setUserToken } from '../helpers/token-manager';
 
-const API_BASE = window.location.hostname === 'localhost' ? process.env.API_BASE : 'https://reddit-eu.herokuapp.com/api';
+const API_BASE =
+  window.location.hostname === 'localhost' ? process.env.API_BASE : 'https://reddit-eu.herokuapp.com/api';
 
 function processResponse(response) {
   /**
@@ -13,32 +14,34 @@ function processResponse(response) {
    */
   const jsonResponse = response.status === 204 ? Promise.resolve({}) : response.json();
 
-  return jsonResponse
-    // Map response to always have shape {data, errors}
-    .then(json => {
-      const payload = _.has(json, 'data') ? json : {data: json};
+  return (
+    jsonResponse
+      // Map response to always have shape {data, errors}
+      .then(json => {
+        const payload = _.has(json, 'data') ? json : { data: json };
 
-      // Try to parse user data from payload (if login) and store it.
-      const userId = _.get(payload, 'data.user.id');
-      const username = _.get(payload, 'data.user.username');
-      const accessToken = _.get(payload, 'data.jwt');
+        // Try to parse user data from payload (if login) and store it.
+        const userId = _.get(payload, 'data.user.id');
+        const username = _.get(payload, 'data.user.username');
+        const accessToken = _.get(payload, 'data.jwt');
 
-      if (_.isNumber(userId) && _.isString(username) && _.isString(accessToken)) {
-        setUserToken({
-          userId,
-          username,
-          accessToken,
-        });
-      }
+        if (_.isNumber(userId) && _.isString(username) && _.isString(accessToken)) {
+          setUserToken({
+            userId,
+            username,
+            accessToken,
+          });
+        }
 
-      if (_.has(payload, 'data.error')) {
-        return {...payload, errors: _.castArray(payload.data.error)};
-      }
-      if (_.has(payload, 'data.errors')) {
-        return {...payload, errors: _.castArray(payload.data.errors)};
-      }
-      return payload;
-    });
+        if (_.has(payload, 'data.error')) {
+          return { ...payload, errors: _.castArray(payload.data.error) };
+        }
+        if (_.has(payload, 'data.errors')) {
+          return { ...payload, errors: _.castArray(payload.data.errors) };
+        }
+        return payload;
+      })
+  );
 }
 
 /**
@@ -48,7 +51,7 @@ function processResponse(response) {
  * @param  {string} data      Optional request data or GET req params, defaults to empty object (no additional params).
  * @return {Promise}          Promise resolving with either response data or error message string.
  */
-function performRequest({endpoint, method, data = {}, isExternalUrl}) {
+function performRequest({ endpoint, method, data = {}, isExternalUrl }) {
   if (!_.isString(endpoint)) {
     throw new Error('"endpoint" argument of performRequest function of api-request middleware is not valid');
   }
@@ -69,22 +72,22 @@ function performRequest({endpoint, method, data = {}, isExternalUrl}) {
   }
 
   // if data is provided: when using GET method, serialize it to query string, otherwise pass it as request body.
-  const params = (!_.isEmpty(data) && method === methods.GET) ? `?${queryString.stringify(data)}` : '';
+  const params = !_.isEmpty(data) && method === methods.GET ? `?${queryString.stringify(data)}` : '';
 
   let payload;
   if (method !== methods.GET) {
-    if (data instanceof FormData || _.some(data, (object) => object instanceof FormData)) {
+    if (data instanceof FormData || _.some(data, object => object instanceof FormData)) {
       // Leave the content type to the browser - fetch has problems with boundary if 'multipart/form-data' is set as type manually.
-      payload = {body: data};
+      payload = { body: data };
     } else {
       headers.append('Content-Type', 'application/json');
-      payload = (!_.isEmpty(data) && method !== methods.GET) ? {body: JSON.stringify(data)} : {};
+      payload = !_.isEmpty(data) && method !== methods.GET ? { body: JSON.stringify(data) } : {};
     }
   }
 
   // Prepare query request options.
   const requestOptions = {
-    ...(includeCredentials && {credentials: 'include'}),
+    ...(includeCredentials && { credentials: 'include' }),
     method,
     headers,
     ...payload,
@@ -92,10 +95,12 @@ function performRequest({endpoint, method, data = {}, isExternalUrl}) {
 
   const url = isExternalUrl ? endpoint : `${API_BASE}${endpoint}`;
 
-  return fetch(`${url}${params}`, requestOptions)
-    // If error occured within the fetch itself, catch it and resolve promise with error message string.
-    .then(processResponse)
-    .catch(error => ({errors: [error.message]}));
+  return (
+    fetch(`${url}${params}`, requestOptions)
+      // If error occured within the fetch itself, catch it and resolve promise with error message string.
+      .then(processResponse)
+      .catch(error => ({ errors: [error.message] }))
+  );
 }
 
 // Action creator for action sent when request is created.
@@ -109,7 +114,7 @@ function requestPendingAction(nextAction, metadata, requestParams) {
 }
 
 // Action creator for action sent when request is complete, incudes response payload.
-function requestCompleteAction(nextAction, metadata, {data, errors}) {
+function requestCompleteAction(nextAction, metadata, { data, errors }) {
   return {
     type: nextAction,
     data,
@@ -128,7 +133,7 @@ function processRequests(store, requests, requestIndex = 0) {
   // requestParams is object with keys `endpoint` (string) and optional `method` (string) and `data` (object) keys.
   // nextAction is string representing type of next action.
   // metadata is optional object, which is passed along from API_REQUEST action to `nextAction`.
-  const {requestParams, nextAction, metadata = {}} = requests[requestIndex];
+  const { requestParams, nextAction, metadata = {} } = requests[requestIndex];
 
   if (_.isBoolean(metadata.useSessionStorage)) {
     setStorageEngine(metadata.useSessionStorage);
@@ -146,7 +151,8 @@ function processRequests(store, requests, requestIndex = 0) {
 }
 
 // Declare middleware to handle API_REQUEST actions.
-const apiRequest = store => next => action => { // eslint-disable-line consistent-return
+// eslint-disable-next-line consistent-return
+const apiRequest = store => next => action => {
   // Skip actions which aren't API_REQUEST.
   if (action.type !== API_REQUEST) {
     return next(action);

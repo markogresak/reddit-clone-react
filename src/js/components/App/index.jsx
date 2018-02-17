@@ -3,14 +3,12 @@ import PropTypes from 'prop-types';
 
 import Menu from '../Menu';
 
-const App = ({children}) => {
+const App = ({ children }) => {
   return (
     <div>
       <Menu />
 
-      <div>
-        {children}
-      </div>
+      <div>{children}</div>
     </div>
   );
 };

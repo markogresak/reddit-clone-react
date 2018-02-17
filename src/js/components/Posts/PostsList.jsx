@@ -4,12 +4,12 @@ import _ from 'lodash';
 
 import PostItem from '../PostItem';
 
-const PostsList = ({posts, arePostsLoading}) => {
+const PostsList = ({ posts, arePostsLoading }) => {
   if (arePostsLoading) {
-    return (<div>Loading...</div>);
+    return <div>Loading...</div>;
   }
   if (_.isEmpty(posts)) {
-    return (<div>No posts</div>);
+    return <div>No posts</div>;
   }
   return posts.map(post => <PostItem key={post.id} {...post} />);
 };

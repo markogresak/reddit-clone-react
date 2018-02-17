@@ -1,16 +1,16 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import {Redirect} from 'react-router-dom';
-import styled, {css} from 'styled-components';
-import {connect} from 'react-redux';
+import { Redirect } from 'react-router-dom';
+import styled, { css } from 'styled-components';
+import { connect } from 'react-redux';
 import _ from 'lodash';
 
-import {dangerColor, successColor} from '../../style-vars';
-import {routeCodes} from '../../routes';
-import {hasUserToken} from '../../helpers/token-manager';
-import {submitLogin} from '../../actions/auth.action';
+import { dangerColor, successColor } from '../../style-vars';
+import { routeCodes } from '../../routes';
+import { hasUserToken } from '../../helpers/token-manager';
+import { submitLogin } from '../../actions/auth.action';
 import ApiErrors from '../ApiErrors';
-import {menuHeight} from '../Menu';
+import { menuHeight } from '../Menu';
 
 export const LoginWrapper = styled.div`
   width: 100vw;
@@ -31,19 +31,27 @@ export const LoginFormContainer = styled.div`
 export const inputMarginBottom = 12;
 
 export const LoginInput = styled.input`
-  border: 1px solid #E0E0E0;
+  border: 1px solid #e0e0e0;
   border-radius: 4px;
   padding: 8px;
   width: 100%;
   margin-bottom: ${inputMarginBottom}px;
-  ${props => props.error && css`color: ${dangerColor}`}
+  ${props =>
+    props.error &&
+    css`
+      color: ${dangerColor};
+    `};
 `;
 
 export const LoginLabel = styled.label`
   align-self: left;
   margin-bottom: ${inputMarginBottom / 2}px;
   margin-left: -8px;
-  ${props => props.error && css`color: ${dangerColor}`}
+  ${props =>
+    props.error &&
+    css`
+      color: ${dangerColor};
+    `};
 `;
 
 const CheckboxWrapper = LoginLabel.extend`
@@ -63,7 +71,7 @@ const FormSuccess = styled.strong`
 `;
 
 class Login extends React.Component {
-  onFormSubmit = (e) => {
+  onFormSubmit = e => {
     e.preventDefault();
 
     const loginData = {
@@ -73,15 +81,13 @@ class Login extends React.Component {
     };
 
     this.props.submitLogin(loginData);
-  }
+  };
 
   render() {
-    const {isLoginLoading, errors, location: {state: registerSuccess}} = this.props;
+    const { isLoginLoading, errors, location: { state: registerSuccess } } = this.props;
 
     if (hasUserToken()) {
-      return (
-        <Redirect to={routeCodes.HOME} />
-      );
+      return <Redirect to={routeCodes.HOME} />;
     }
 
     return (
@@ -90,9 +96,11 @@ class Login extends React.Component {
           <LoginFormContainer>
             <ApiErrors errors={errors} />
 
-            {registerSuccess &&
-              <FormSuccess>The registration was successful. You can now login with the chosen username and password.</FormSuccess>
-            }
+            {registerSuccess && (
+              <FormSuccess>
+                The registration was successful. You can now login with the chosen username and password.
+              </FormSuccess>
+            )}
 
             <LoginLabel htmlFor="username">Username</LoginLabel>
             <LoginInput type="text" name="username" required />
@@ -101,7 +109,9 @@ class Login extends React.Component {
 
             <CheckboxWrapper>
               <input type="checkbox" name="rememberMe" id="rememberMe" defaultChecked />
-              <label htmlFor="rememberMe" style={{marginLeft: 8}}>Remember me</label>
+              <label htmlFor="rememberMe" style={{ marginLeft: 8 }}>
+                Remember me
+              </label>
             </CheckboxWrapper>
 
             <button type="submit" disabled={isLoginLoading}>
@@ -130,4 +140,4 @@ function mapStateToProps(state) {
   };
 }
 
-export default connect(mapStateToProps, {submitLogin})(Login);
+export default connect(mapStateToProps, { submitLogin })(Login);

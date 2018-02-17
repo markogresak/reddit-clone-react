@@ -1,11 +1,11 @@
-import {login, register} from '../endpoints';
-import apiRequest, {methods} from '../helpers/api-request';
+import { login, register } from '../endpoints';
+import apiRequest, { methods } from '../helpers/api-request';
 
 export const LOGIN_PROCESSED = 'LOGIN_PROCESSED';
 export const REGISTER_PROCESSED = 'REGISTER_PROCESSED';
 
 export function submitLogin(userData) {
-  const {rememberMe, ...data} = userData;
+  const { rememberMe, ...data } = userData;
 
   return apiRequest({
     endpoint: login(),

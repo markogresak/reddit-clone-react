@@ -47,17 +47,13 @@ const rules = [
   {
     test: /\.(js|jsx)$/,
     exclude: /node_modules/,
-    use: [
-      'babel-loader',
-    ],
+    use: ['babel-loader'],
   },
 ];
 
 // Common entries
 const entry = {
-  js: [
-    './index.js',
-  ],
+  js: ['./index.js'],
   vendor: [
     'babel-polyfill',
     'lodash',
@@ -100,13 +96,11 @@ if (isProduction) {
       output: {
         comments: false,
       },
-    })
+    }),
   );
 } else {
   // Development plugins
-  plugins.push(
-    new webpack.HotModuleReplacementPlugin()
-  );
+  plugins.push(new webpack.HotModuleReplacementPlugin());
 
   entry.js = [
     'react-hot-loader/patch',
@@ -129,10 +123,7 @@ module.exports = {
   },
   resolve: {
     extensions: ['.webpack-loader.js', '.web-loader.js', '.loader.js', '.js', '.jsx'],
-    modules: [
-      path.resolve(__dirname, 'node_modules'),
-      jsSourcePath,
-    ],
+    modules: [path.resolve(__dirname, 'node_modules'), jsSourcePath],
   },
   plugins,
   devServer: {

@@ -1,17 +1,12 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import styled, {css} from 'styled-components';
+import styled, { css } from 'styled-components';
 
 import VoteButton from './VoteButton';
-import {
-  getColorBasedOnRating,
-  ratingButtonsWidth,
-  ratingButtonsTextSpacing,
-} from '../../style-vars';
-
+import { getColorBasedOnRating, ratingButtonsWidth, ratingButtonsTextSpacing } from '../../style-vars';
 
 const Rating = styled.div`
-  color: ${({userRating}) => getColorBasedOnRating(userRating)};
+  color: ${({ userRating }) => getColorBasedOnRating(userRating)};
   margin: ${ratingButtonsTextSpacing}px 0;
 `;
 
@@ -28,25 +23,25 @@ const RatingButtonsWrapper = styled.div`
   flex-direction: column;
   align-items: center;
   flex-basis: ${ratingButtonsWidth}px;
-  ${({comment}) => comment && css`
-    margin-top: 10px;
-    padding-right: 8px;
-    flex-basis: auto;
-  `}
-  ${({collapsed}) => collapsed && css`
-    visibility: hidden;
-  `}
+  ${({ comment }) =>
+    comment &&
+    css`
+      margin-top: 10px;
+      padding-right: 8px;
+      flex-basis: auto;
+    `} ${({ collapsed }) =>
+  // eslint-disable-next-line
+      collapsed &&
+      css`
+        visibility: hidden;
+      `};
 `;
 
-const RatingButtons = ({id, rating, userRating, comment, collapsed}) => {
+const RatingButtons = ({ id, rating, userRating, comment, collapsed }) => {
   return (
     <RatingButtonsWrapper comment={comment} collapsed={collapsed}>
       <VoteButton id={id} userRating={userRating} comment={comment} />
-      {comment ? (
-        <VoteButtonSpacer />
-      ) : (
-        <Rating userRating={userRating}>{rating}</Rating>
-      )}
+      {comment ? <VoteButtonSpacer /> : <Rating userRating={userRating}>{rating}</Rating>}
       <VoteButton down id={id} userRating={userRating} comment={comment} />
     </RatingButtonsWrapper>
   );

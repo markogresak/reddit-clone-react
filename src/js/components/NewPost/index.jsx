@@ -1,13 +1,13 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import styled from 'styled-components';
-import {connect} from 'react-redux';
-import {Redirect} from 'react-router-dom';
+import { connect } from 'react-redux';
+import { Redirect } from 'react-router-dom';
 
-import {addPost} from '../../actions/posts.action';
-import {routeCodes} from '../../routes';
+import { addPost } from '../../actions/posts.action';
+import { routeCodes } from '../../routes';
 import urlFromTemplate from '../../helpers/url-from-template';
-import {hasUserToken} from '../../helpers/token-manager';
+import { hasUserToken } from '../../helpers/token-manager';
 
 const NewPostWrapper = styled.div`
   max-width: 500px;
@@ -35,39 +35,35 @@ export const postTypes = {
 };
 
 class NewPost extends React.Component {
-  onSubmit = (e) => {
+  onSubmit = e => {
     e.preventDefault();
     const postType = this.postType();
 
     const postData = {
       title: e.target.title.value.trim(),
-      ...(postType === postTypes.link && {url: e.target.url.value.trim()}),
-      ...(postType === postTypes.text && {text: e.target.text.value.trim()}),
+      ...(postType === postTypes.link && { url: e.target.url.value.trim() }),
+      ...(postType === postTypes.text && { text: e.target.text.value.trim() }),
     };
 
     this.props.addPost(postData);
 
     return true;
-  }
+  };
 
   postType = () => {
     return this.props.match.params.type;
-  }
+  };
 
   render() {
     if (!hasUserToken()) {
-      return (
-        <Redirect to={routeCodes.HOME} />
-      );
+      return <Redirect to={routeCodes.HOME} />;
     }
 
-    const {addPostPending, newPostId} = this.props;
+    const { addPostPending, newPostId } = this.props;
     const postType = this.postType();
 
     if (newPostId) {
-      return (
-        <Redirect to={urlFromTemplate(routeCodes.POST, {id: newPostId})} />
-      );
+      return <Redirect to={urlFromTemplate(routeCodes.POST, { id: newPostId })} />;
     }
 
     return (
@@ -81,26 +77,19 @@ class NewPost extends React.Component {
               <Input type="text" name="title" id="title" required />
             </FormGroup>
 
-            {postType === postTypes.link &&
+            {postType === postTypes.link && (
               <FormGroup>
                 <Label htmlFor="url">Link</Label>
                 <Input type="text" name="url" id="url" required />
               </FormGroup>
-            }
+            )}
 
-            {postType === postTypes.text &&
+            {postType === postTypes.text && (
               <FormGroup>
                 <Label htmlFor="text">Text</Label>
-                <textarea
-                  name="text"
-                  id="text"
-                  cols="1"
-                  rows="1"
-                  style={{width: '100%', height: 100}}
-                  required
-                />
+                <textarea name="text" id="text" cols="1" rows="1" style={{ width: '100%', height: 100 }} required />
               </FormGroup>
-            }
+            )}
 
             <button type="submit" disabled={addPostPending}>
               {addPostPending ? 'Saving post...' : 'Save post'}
@@ -134,4 +123,4 @@ function mapStateToProps(state) {
   };
 }
 
-export default connect(mapStateToProps, {addPost})(NewPost);
+export default connect(mapStateToProps, { addPost })(NewPost);

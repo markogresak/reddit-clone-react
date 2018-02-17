@@ -1,16 +1,16 @@
-import React, {Component} from 'react';
+import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import {connect} from 'react-redux';
-import {Link} from 'react-router-dom';
+import { connect } from 'react-redux';
+import { Link } from 'react-router-dom';
 import styled from 'styled-components';
 
-import {routeCodes} from '../../routes';
-import {postsListSpacing, contentWidth} from '../../style-vars';
+import { routeCodes } from '../../routes';
+import { postsListSpacing, contentWidth } from '../../style-vars';
 import PostsList from './PostsList';
-import {fetchAllPosts} from '../../actions/posts.action';
+import { fetchAllPosts } from '../../actions/posts.action';
 import urlFromTemplate from '../../helpers/url-from-template';
-import {postTypes} from '../NewPost';
-import {hasUserToken} from '../../helpers/token-manager';
+import { postTypes } from '../NewPost';
+import { hasUserToken } from '../../helpers/token-manager';
 
 const PostsWrapper = styled.div`
   max-width: ${contentWidth}px;
@@ -35,24 +35,32 @@ class Posts extends Component {
   }
 
   render() {
-    const {posts, arePostsLoading} = this.props;
+    const { posts, arePostsLoading } = this.props;
 
     return (
       <div>
-        {hasUserToken() &&
+        {hasUserToken() && (
           <NewPostWrapper>
             <NewPostButtonWrapper>
-              <Link to={urlFromTemplate(routeCodes.NEW_POST, {type: postTypes.link})}>
+              <Link
+                to={urlFromTemplate(routeCodes.NEW_POST, {
+                  type: postTypes.link,
+                })}
+              >
                 <button>+ Add new link post</button>
               </Link>
             </NewPostButtonWrapper>
             <NewPostButtonWrapper>
-              <Link to={urlFromTemplate(routeCodes.NEW_POST, {type: postTypes.text})}>
+              <Link
+                to={urlFromTemplate(routeCodes.NEW_POST, {
+                  type: postTypes.text,
+                })}
+              >
                 <button>+ Add new text post</button>
               </Link>
             </NewPostButtonWrapper>
           </NewPostWrapper>
-        }
+        )}
         <PostsWrapper>
           <PostsList posts={posts} arePostsLoading={arePostsLoading} />
         </PostsWrapper>
@@ -78,4 +86,4 @@ function mapStateToProps(state) {
   };
 }
 
-export default connect(mapStateToProps, {fetchAllPosts})(Posts);
+export default connect(mapStateToProps, { fetchAllPosts })(Posts);

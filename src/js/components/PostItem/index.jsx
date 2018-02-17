@@ -1,20 +1,13 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import {Link} from 'react-router-dom';
+import { Link } from 'react-router-dom';
 import styled from 'styled-components';
 import moment from 'moment';
 
-import {
-  mutedTextColor,
-  textSmSize,
-  textXsSize,
-  postHeight,
-  postSpacing,
-  ratingButtonsWidth,
-} from '../../style-vars';
+import { mutedTextColor, textSmSize, textXsSize, postHeight, postSpacing, ratingButtonsWidth } from '../../style-vars';
 import extractDomain from '../../helpers/extract-domain';
 import RatingButtons from '../RatingButtons';
-import {routeCodes} from '../../routes';
+import { routeCodes } from '../../routes';
 import urlFromTemplate from '../../helpers/url-from-template';
 
 const PostItemWrapper = styled.div`
@@ -66,10 +59,7 @@ const PostItem = ({
   rating,
   comment_count: commentCount,
   submitted_at: submittedAt,
-  user: {
-    username,
-    id: userId,
-  },
+  user: { username, id: userId },
   user_post_rating: userRating,
 }) => {
   return (
@@ -77,25 +67,23 @@ const PostItem = ({
       <RatingButtons id={id} rating={rating} userRating={userRating || 0} />
       <PostContentWrapper>
         <PostContent>
-          {
-            url
-              ? (
-                <span>
-                  <a href={url}>{title}</a>
-                  <ExternalUrlDomain>{extractDomain(url)}</ExternalUrlDomain>
-                </span>
-              )
-              : <Link to={urlFromTemplate(routeCodes.POST, {id})}>{title}</Link>
-          }
+          {url ? (
+            <span>
+              <a href={url}>{title}</a>
+              <ExternalUrlDomain>{extractDomain(url)}</ExternalUrlDomain>
+            </span>
+          ) : (
+            <Link to={urlFromTemplate(routeCodes.POST, { id })}>{title}</Link>
+          )}
         </PostContent>
         <PostDetails>
           <PostSubmitted>
             Submitted {moment(submittedAt).fromNow()} by{' '}
-            <Link to={urlFromTemplate(routeCodes.USER, {id: userId})}>{username}</Link>
+            <Link to={urlFromTemplate(routeCodes.USER, { id: userId })}>{username}</Link>
           </PostSubmitted>
         </PostDetails>
         <PostCommentCount>
-          <Link to={urlFromTemplate(routeCodes.POST, {id})}>{commentCount} comments</Link>
+          <Link to={urlFromTemplate(routeCodes.POST, { id })}>{commentCount} comments</Link>
         </PostCommentCount>
       </PostContentWrapper>
     </PostItemWrapper>

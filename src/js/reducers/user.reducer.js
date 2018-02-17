@@ -1,12 +1,9 @@
 import Immutable from 'seamless-immutable';
 import _ from 'lodash';
 
-import {API_REQUEST_PENDING} from '../helpers/api-request';
-import {FETCH_USER} from '../actions/user.action';
-import {
-  RATE_POST,
-  RATE_COMMENT,
-} from '../actions/posts.action';
+import { API_REQUEST_PENDING } from '../helpers/api-request';
+import { FETCH_USER } from '../actions/user.action';
+import { RATE_POST, RATE_COMMENT } from '../actions/posts.action';
 
 const initialState = Immutable({
   isUserLoading: false,
@@ -34,7 +31,9 @@ const user = {
       return state;
     }
 
-    const postIndex = _.findIndex(state.currentUser.posts, {id: action.data.post_id});
+    const postIndex = _.findIndex(state.currentUser.posts, {
+      id: action.data.post_id,
+    });
     if (postIndex === -1) {
       return state;
     }
@@ -50,7 +49,9 @@ const user = {
       return state;
     }
 
-    const commentIndex = _.findIndex(state.currentUser.comments, {id: action.data.comment_id});
+    const commentIndex = _.findIndex(state.currentUser.comments, {
+      id: action.data.comment_id,
+    });
     if (commentIndex === -1) {
       return state;
     }
