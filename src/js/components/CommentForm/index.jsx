@@ -27,7 +27,7 @@ const CommentForm = ({ onSubmit, addCommentPending, onClose, withCancelButton, d
           id="text"
           cols="1"
           rows="1"
-          style={{ width: 500, height: 100 }}
+          style={{ maxWidth: '100%', width: 500, height: 100 }}
           defaultValue={defaultValue}
         />
 

@@ -25,6 +25,7 @@ export const LoginFormContainer = styled.div`
   flex-direction: column;
   align-items: center;
   justify-content: space-between;
+  max-width: 100%;
   width: 220px;
 `;
 
@@ -59,6 +60,7 @@ const CheckboxWrapper = LoginLabel.extend`
 `;
 
 export const FormError = styled.small`
+  max-width: 100%;
   width: 200px;
   color: ${dangerColor};
   margin-top: -${inputMarginBottom / 2}px;
