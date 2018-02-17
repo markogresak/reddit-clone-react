@@ -10,7 +10,6 @@
   "scripts": {
     "start": "webpack-dev-server --colors",
     "build": "rm -rf ./build && NODE_ENV=production webpack",
-    "deploy": "yarn run build && ./deploy-s3.sh",
     "lint": "eslint ./src/js ./webpack.config.js -f table --ext .js --ext .jsx --cache",
     "lint:fix": "yarn run lint --fix",
     "preview": "NODE_ENV=production yarn run start",
