@@ -159,7 +159,7 @@ class Comment extends React.Component {
                 <span>{text}</span>
               )}
             </div>
-            {hasUserToken() && !hideButtons &&
+            {hasUserToken() && !hideButtons && !editMode &&
               <span>
                 <ActionLink onClick={this.openReplyForm}>Reply</ActionLink>
                 {currentUserId === user.id &&
