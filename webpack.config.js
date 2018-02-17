@@ -22,11 +22,6 @@ const devPort = process.env.PORT || 8080;
 
 // Common plugins
 const plugins = [
-  new webpack.optimize.CommonsChunkPlugin({
-    name: 'vendor',
-    minChunks: Infinity,
-    filename: 'vendor-[hash].js',
-  }),
   new webpack.DefinePlugin({
     'process.env': {
       NODE_ENV: JSON.stringify(nodeEnv),
@@ -53,8 +48,7 @@ const rules = [
 
 // Common entries
 const entry = {
-  js: ['./index.js'],
-  vendor: [
+  js: [
     'babel-polyfill',
     'lodash',
     'moment',
@@ -70,6 +64,7 @@ const entry = {
     'store',
     'styled-components',
     'whatwg-fetch',
+    './index.js',
   ],
 };
 
