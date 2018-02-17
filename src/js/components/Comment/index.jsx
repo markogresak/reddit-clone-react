@@ -154,6 +154,7 @@ class Comment extends React.Component {
                   onClose={this.closeEditForm}
                   withCancelButton
                   defaultValue={text}
+                  editMode={editMode}
                 />
               ) : (
                 <span>{text}</span>

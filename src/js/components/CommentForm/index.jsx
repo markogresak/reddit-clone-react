@@ -14,7 +14,7 @@ const CommentFormButtons = styled.div`
   margin-top: 10px;
 `;
 
-const CommentForm = ({onSubmit, addCommentPending, onClose, withCancelButton, defaultValue}) => {
+const CommentForm = ({onSubmit, addCommentPending, onClose, withCancelButton, defaultValue, editMode}) => {
   if (!hasUserToken()) {
     return null;
   }
@@ -32,7 +32,7 @@ const CommentForm = ({onSubmit, addCommentPending, onClose, withCancelButton, de
         />
 
         <CommentFormButtons>
-          <button type="submit" disabled={addCommentPending}>Submit reply</button>
+          <button type="submit" disabled={addCommentPending}>{editMode ? 'Edit comment' : 'Submit reply'}</button>
           {withCancelButton &&
             <button
               type="button"
@@ -55,12 +55,14 @@ CommentForm.propTypes = {
   onClose: PropTypes.func,
   withCancelButton: PropTypes.bool,
   defaultValue: PropTypes.string,
+  editMode: PropTypes.bool,
 };
 
 CommentForm.defaultProps = {
   onClose: () => {},
   withCancelButton: false,
   defaultValue: '',
+  editMode: false,
 };
 
 function mapStateToProps(state) {
