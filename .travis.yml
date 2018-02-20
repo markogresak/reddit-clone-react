@@ -22,6 +22,7 @@ deploy:
   region: "eu-west-1"
   bucket: "reddit-clone-react.gresak.io"
   acl: "public_read"
+  cache_control: "max-age=31536000"
   detect_encoding: true
   default_text_charset: "utf-8"
   local_dir: "build"
