@@ -1,5 +1,7 @@
 # Reddit clone in React
 
+> This project is a part of my [bachelor's thesis](http://eprints.fri.uni-lj.si/4111/).
+
 [![Build Status](https://travis-ci.com/markogresak/reddit-clone-react.svg?token=yBhQFGxVxxqqbo7xzCdE&branch=master)](https://travis-ci.com/markogresak/reddit-clone-react)
 
 ## Setup
